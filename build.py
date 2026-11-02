@@ -453,7 +453,7 @@ def index():
       <ol class="steps-list">
         <li><div><h3>Download the free swap list</h3><p>{N.capitalize()} swaps, room by room, each backed by Consumer Reports, pediatricians or peer-reviewed research.</p></div></li>
         <li><div><h3>Make the swaps that fit your budget</h3><p>Start with the cheap ones, like loose-leaf tea or a wooden spoon.</p></div></li>
-        <li><div><h3>Enjoy a healthier home</h3><p>Cook, eat and get dressed knowing less plastic is getting into your body.</p></div></li>
+        <li><div><h3>Enjoy a healthier home</h3><p>Cook, eat and dress knowing less plastic ends up in your body.</p></div></li>
       </ol>
       <div class="btn-row"><a href="swaps.html" class="btn">Download the Free Swap List</a></div>
     </div>
