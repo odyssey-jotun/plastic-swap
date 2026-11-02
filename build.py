@@ -81,7 +81,7 @@ ROOMS = [
     {"id": "home", "name": "Around the house", "intro": "Microplastics settle into household dust.", "photo": "room-house", "photo_left": False, "swaps": [
         {"id": "rugs", "icon": "wind", "photo": "swap-dust", "alt": "A woman vacuuming a bright living room",
          "name": "Rugs and carpet", "to": "Synthetic to wool, cotton or jute",
-         "text": "Synthetic carpet sheds plastic fibers into household dust. In a study of 32 homes, homes with mostly carpeted floors had nearly double the plastic fibers in their dust, and homes vacuumed at least once a week had less. Dust is one of the biggest sources of exposure for babies, who crawl and put things in their mouths.",
+         "text": "Synthetic carpet sheds plastic fibers into household dust. In a study of 32 homes, homes with mostly carpeted floors had nearly double the plastic fibers in their dust. The researchers estimated that a five-year-old swallows about a garden pea's worth of microplastic from house dust each year. Dust is one of the biggest sources of exposure for babies, who crawl and put things in their mouths.",
          "source": "Soltani et al., 2021; UW Medicine"},
     ]},
 ]
