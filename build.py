@@ -438,9 +438,9 @@ def index():
   <div class="wrap split flip">
     {portrait("john-porch", "Me in a blue button-down shirt beside a white column on a porch")}
     <div>
-      <h2>My family started swapping in 2024</h2>
+      <h2>How I started swapping out plastic for safer alternatives</h2>
       <p>I'm John Griffin, a junior at Episcopal Collegiate School in Little Rock. A couple of years ago, I didn't know much about microplastics either. Too many people still don't. That changed in 2024, when I started watching health experts and doctors explain the research.</p>
-      <p>My dad did his own research and talked with doctors he knows, and they confirmed what I had learned. So we started swapping. Between August 2024 and September 2025, we replaced our plastic cutting board, spatula, food containers, dishwasher pods, toothbrushes and even underwear.</p>
+      <p>What I learned was enough for me to start replacing the plastic I use every day with safer alternatives. Between August 2024 and September 2025, I swapped out the plastic cutting board, spatula, food containers, dishwasher pods, toothbrushes and even underwear.</p>
       <div class="btn-row"><a href="research.html" class="btn ghost">Read the research</a></div>
     </div>
   </div>
@@ -695,7 +695,7 @@ def family():
 
 <section class="post">
   <div class="wrap prose">
-    <p>I started researching microplastics in 2024 by watching health experts and doctors explain the studies. My dad did his own research and talked with doctors he knows. They confirmed what I had read, so we started changing what we buy.</p>
+    <p>I started researching microplastics in 2024 by watching health experts and doctors explain the studies. What I learned was enough for me to start changing what we buy.</p>
     <p>We started in the kitchen, where food touches plastic every day, and moved on from there. Everything below comes straight from our order history.</p>
     <div class="table-wrap">
       <table class="price-table">
