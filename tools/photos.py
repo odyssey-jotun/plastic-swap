@@ -13,9 +13,15 @@ def grade(im):
 # Portraits of John (4:5), cropped with explicit boxes in original pixels.
 PORTRAITS = {
     "john-porch": ("john-porch", (420, 950, 3020, 4200)),
+    "blog-dishwasher": ("dishwasher-woman", None),
 }
 for name, (src, box) in PORTRAITS.items():
-    im = grade(ImageOps.exif_transpose(Image.open(f"images/originals/{src}.jpg")).crop(box))
+    im = ImageOps.exif_transpose(Image.open(f"images/originals/{src}.jpg"))
+    if box is None:  # center a 4:5 crop
+        w, h = im.size
+        nh = min(h, int(w * 5 / 4)); nw = int(nh * 4 / 5)
+        box = ((w - nw) // 2, (h - nh) // 2, (w - nw) // 2 + nw, (h - nh) // 2 + nh)
+    im = grade(im.crop(box))
     for w in (480, 680, 800):
         im.resize((w, round(w * 5 / 4)), Image.LANCZOS).save(f"images/{name}-{w}.webp", quality=72, method=6)
     print("wrote", name)
@@ -64,7 +70,11 @@ SECTION = {
 }
 CARDS = {
     "swap-board": ("board-tomato", 0.5, 0.5, None),
-    "swap-utensils": ("ut-rack", 0.5, 0.5, (0.3, 0.12, 0.95, 0.92)),
+    "swap-utensils": ("ut-spoons", 0.5, 0.4, None),
+    "swap-water": ("bottle-three", 0.5, 0.5, None),
+    "swap-tea": ("tea-spoons", 0.5, 0.5, None),
+    "swap-microwave": ("casserole", 0.5, 0.6, None),
+    "swap-dust": ("vacuum-woman", 0.5, 0.5, None),
     "swap-glass": ("pantry-granola", 0.5, 0.45, None),
     "swap-dishwasher": ("dishwasher-woman", 0.5, 0.55, None),
     "swap-toothbrush": ("tb-eucalyptus", 0.5, 0.5, None),
@@ -81,8 +91,6 @@ for group, widths in ((SECTION, (600, 900)), (CARDS, (480, 720))):
             w, h = im.size
             im = im.crop((int(box[0] * w), int(box[1] * h), int(box[2] * w), int(box[3] * h)))
         im = grade(crop(im, 4 / 3, fx, fy))
-        if src == "ut-rack":  # shot in low light; lift it to match the other cards
-            im = ImageEnhance.Brightness(im).enhance(1.35)
         for w in widths:
             im.resize((w, w * 3 // 4), Image.LANCZOS).save(f"images/{name}-{w}.webp", quality=74, method=6)
         print("wrote", name)

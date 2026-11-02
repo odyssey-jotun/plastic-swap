@@ -366,3 +366,46 @@ footer ul a:hover{ color: var(--mint); }
 .closing-banner::before{ background: rgba(18,48,42,0.76); }
 .closing-banner .banner-text{ margin: 0 auto; }
 @media (max-width: 860px){ .closing-banner .wrap{ padding-top: 30px; } }
+
+/* ---------------- swap sources, blog post ---------------- */
+.swap .source{ display: grid; grid-template-columns: 18px 1fr; gap: 10px; align-items: start; margin: 16px 0 0; padding-top: 14px; border-top: 1px solid var(--line); font-size: 0.92rem; color: var(--ink-soft); }
+.swap .source svg{ width: 16px; height: 16px; margin-top: 3px; color: var(--primary); }
+.swap .more{ margin: 10px 0 0; font-weight: 700; font-size: 0.95rem; }
+.swap .more a{ color: var(--blue); text-underline-offset: 3px; }
+.byline{ font-weight: 700; color: var(--primary); margin-bottom: 8px; }
+.post{ padding-top: 24px; }
+.prose h2{ margin-top: var(--flow-block); }
+.prose h3{ font-size: 1.2rem; margin-top: 28px; scroll-margin-top: 90px; }
+.table-wrap{ overflow-x: auto; margin: 28px 0 0; border: 1px solid var(--line); border-radius: var(--radius); }
+.price-table{ width: 100%; border-collapse: collapse; font-size: 0.96rem; min-width: 560px; }
+.price-table th, .price-table td{ text-align: left; padding: 12px 16px; border-bottom: 1px solid var(--line); vertical-align: top; }
+.price-table thead th{ background: var(--bg-alt); font-weight: 700; color: var(--ink); }
+.price-table tbody tr:last-child th, .price-table tbody tr:last-child td{ border-bottom: 0; }
+.price-table tbody th a{ color: var(--primary); text-underline-offset: 3px; }
+.price-table td{ color: var(--ink-soft); }
+@media (max-width: 620px){
+  .pcards.preview{ grid-template-columns: 1fr 1fr; gap: 12px; }
+  .pcards.preview .pcard-body{ padding: 12px 10px 14px; }
+  .pcards.preview h3{ font-size: 1rem; }
+  .pcards.preview .to{ font-size: 0.86rem; }
+}
+@media print{
+  .swap .more{ display: none; }
+  .swap .source{ font-size: 8.5pt; margin-top: 6pt; padding-top: 6pt; grid-template-columns: 11px 1fr; gap: 6pt; }
+  .swap .source svg{ width: 11px; height: 11px; margin-top: 1px; }
+}
+@media print{
+  /* Eight cards on one letter page. */
+  @page{ margin: 0.4in 0.5in; }
+  main{ gap: 8pt; }
+  .page-hero h1{ font-size: 18pt; }
+  .page-hero .lede{ font-size: 9.5pt; }
+  .swap{ padding: 7pt 11pt 7pt; }
+  .room-tag{ font-size: 7pt; margin: 0 0 1pt; }
+  .swap .icon{ width: 24px; height: 24px; border-radius: 7px; margin-bottom: 2pt; }
+  .swap .icon svg{ width: 15px; height: 15px; }
+  .swap h3{ font-size: 11.5pt; }
+  .swap .to{ font-size: 9pt; margin-bottom: 3pt; }
+  .swap-body > p{ font-size: 8.8pt; line-height: 1.35; }
+  .swap .source{ font-size: 8pt; margin-top: 4pt; padding-top: 4pt; }
+}

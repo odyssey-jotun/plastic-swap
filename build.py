@@ -31,43 +31,85 @@ SOURCES = {
     "hussain": "Hussain, Kazi Albab, et al. <em>Assessing the Release of Microplastics and Nanoplastics from Plastic Containers and Reusable Food Pouches: Implications for Human Health.</em> Environmental Science &amp; Technology (2023).",
     "qian": "Qian, Naixin, et al. <em>Rapid Single-Particle Chemical Imaging of Nanoplastics by SRS Microscopy.</em> Proceedings of the National Academy of Sciences 121, no. 3 (2024).",
     "napper": "Napper, Imogen E., and Richard C. Thompson. <em>Release of Synthetic Microplastic Plastic Fibres from Domestic Washing Machines: Effects of Fabric Type and Washing Conditions.</em> Marine Pollution Bulletin 112 (2016).",
+    "cr": "Consumer Reports. <em>How to Reduce Exposure to Plastic in Food and Everywhere Else</em> (2024), its black plastic kitchen tools guidance (2024) and <em>Detox Your Kitchen</em> (2025), as reported by its syndicated news segments.",
+    "aap": "American Academy of Pediatrics. <em>Food Additives and Child Health</em>, policy statement. Pediatrics 142, no. 2 (2018).",
+    "uw": "UW Medicine. <em>Limiting Your Exposure to Microplastics at Home</em>, with Dr. Sheela Sathyanarayana.",
+    "hernandez": "Hernandez, Laura M., et al. <em>Plastic Teabags Release Billions of Microparticles and Nanoparticles into Tea.</em> Environmental Science &amp; Technology 53, no. 21 (2019).",
     "textile": "Textile Exchange. <em>Materials Market Report 2024.</em> Polyester was 57% of global fiber production in 2023.",
 }
 
-# ---------------------------------------------------------------- the swaps
-# Every swap comes from my family's own order history. "paid" is what we
-# paid at the time, before tax.
+# ---------------------------------------------------------------- the swap list
+# The list everyone downloads. Each swap is backed by Consumer Reports, the
+# American Academy of Pediatrics, UW Medicine or a peer-reviewed study.
+# "family": the matching section of my family's blog post, when we made it.
 ROOMS = [
     {"id": "kitchen", "name": "Kitchen", "intro": "Where food touches plastic every day.", "swaps": [
-        {"id": "cutting-board", "icon": "board", "name": "Cutting board", "to": "Plastic to bamboo",
-         "text": "Every cut scrapes the board. On a plastic board, those scrapes are tiny pieces of plastic, and some of them end up in the food.",
-         "bought": "Allsum bamboo cutting board", "paid": "$14.97", "when": "August 2024"},
-        {"id": "spatula", "icon": "spatula", "name": "Spatula", "to": "Plastic to stainless steel",
-         "text": "Plastic and nylon spatulas wear down against hot pans. Stainless steel holds up to the heat.",
-         "bought": "Zulay stainless steel spatula", "paid": "$12.99", "when": "November 2024"},
-        {"id": "food-storage", "icon": "archive", "name": "Food storage", "to": "Plastic to glass",
-         "text": "Heat and scrubbing wear down plastic food containers over time. Glass holds leftovers just as well. The lids on ours are still plastic, so leave the lid off when you heat food.",
-         "bought": "Rubbermaid Brilliance glass containers, set of 9", "paid": "$79.99", "when": "October 2024"},
-    ]},
-    {"id": "dishes", "name": "Dishes", "intro": "One swap that repeats every load.", "swaps": [
-        {"id": "dishwasher", "icon": "tablet", "name": "Dishwasher detergent", "to": "Pods to plastic-free tablets",
-         "text": "Many dishwasher pods are wrapped in a film of polyvinyl alcohol, a plastic made to dissolve in water. Plain tablets have no film at all.",
-         "bought": "Wild Clean unscented tablets, then Blueland plastic-free tablets", "paid": "$19.99 a month; $23.99", "when": "April 2025; September 2025"},
-    ]},
-    {"id": "bathroom", "name": "Bathroom", "intro": "Something everyone puts in their mouth twice a day.", "swaps": [
-        {"id": "toothbrush", "icon": "toothbrush", "name": "Toothbrush", "to": "Plastic to bamboo and boar bristle",
-         "text": "A standard toothbrush has a plastic handle and nylon bristles. Ours have bamboo handles and natural boar bristles.",
-         "bought": "Primals boar bristle and bamboo toothbrushes", "paid": "$27.99 a pack", "when": "July 2025"},
+        {"id": "cutting-board", "icon": "board", "photo": "swap-board", "alt": "A bamboo cutting board with sliced tomatoes and a steel knife",
+         "name": "Cutting board", "to": "Plastic to wood or bamboo",
+         "text": "Every cut scrapes tiny pieces off a plastic board, and some end up in the food. Researchers estimated that a polypropylene board can release about 79 million particles a year.",
+         "source": "Consumer Reports, 2025; Yadav et al., 2023", "family": "cutting-board"},
+        {"id": "utensils", "icon": "utensils", "photo": "swap-utensils", "alt": "Wooden spoons and spatulas standing in a bamboo holder on a kitchen counter",
+         "name": "Spatulas and spoons", "to": "Plastic to wood, bamboo or stainless steel",
+         "text": "Plastic tools wear down against hot pans. Consumer Reports also warns about black plastic tools, which can contain flame retardants.",
+         "source": "Consumer Reports, 2024 and 2025", "family": "spatula"},
+        {"id": "food-storage", "icon": "archive", "photo": "swap-glass", "alt": "Hands placing a glass jar of granola with a bamboo lid on a pantry shelf",
+         "name": "Food storage", "to": "Plastic to glass or stainless steel",
+         "text": "Heat can make plastic containers leak chemicals like BPA and phthalates into food. Pediatricians recommend glass or stainless steel and say to keep plastic out of the dishwasher.",
+         "source": "American Academy of Pediatrics, 2018; Consumer Reports, 2025", "family": "food-storage"},
+        {"id": "reheating", "icon": "microwave", "photo": "swap-microwave", "alt": "A glass baking dish of green bean casserole on a kitchen table",
+         "name": "Reheating", "to": "Plastic to ceramic or glass",
+         "text": "Three minutes in the microwave released as many as 4 million microplastic particles from each square centimeter of a plastic container. Move food into a ceramic or glass dish first.",
+         "source": "Consumer Reports, 2025; American Academy of Pediatrics, 2018; Hussain et al., 2023"},
+        {"id": "water", "icon": "glass-water", "photo": "swap-water", "alt": "Three metal water bottles in orange, teal and lilac",
+         "name": "Water bottle", "to": "Bottled water to a steel or glass bottle",
+         "text": "A 2024 study counted about 240,000 plastic particles in a liter of bottled water. Fill a stainless steel or glass bottle with tap or filtered water instead.",
+         "source": "Consumer Reports, 2025; Qian et al., 2024"},
+        {"id": "tea", "icon": "coffee", "photo": "swap-tea", "alt": "Spoonfuls of loose-leaf tea on a white marble counter",
+         "name": "Tea", "to": "Plastic tea bags to loose-leaf",
+         "text": "In a 2019 study, one plastic tea bag steeped at brewing temperature released about 11.6 billion microplastic particles into a single cup. Loose-leaf tea in a steel strainer skips the bag.",
+         "source": "Hernandez et al., 2019"},
     ]},
     {"id": "closet", "name": "Closet", "intro": "Polyester is in a lot of everyday clothes.", "swaps": [
-        {"id": "underwear", "icon": "shorts", "name": "Underwear", "to": "Synthetic to cotton",
-         "text": "Polyester and nylon are plastics, and clothes made from them shed tiny fibers. Cotton is a natural fiber.",
-         "bought": "Amazon Essentials cotton boxer briefs, pack of 5", "paid": "$18.00", "when": "December 2024"},
+        {"id": "clothes", "icon": "shirt", "photo": "swap-cotton", "alt": "A person folding a stack of clean clothes on the floor",
+         "name": "Clothes and underwear", "to": "Polyester and nylon to cotton, linen or wool",
+         "text": "Polyester and nylon are plastics, and they shed fibers in the wash. One load of polyester clothes can shed about 496,030 fibers. Cotton, linen and wool are natural fibers.",
+         "source": "Napper and Thompson, 2016", "family": "underwear"},
+    ]},
+    {"id": "home", "name": "Around the house", "intro": "Microplastics settle into household dust.", "swaps": [
+        {"id": "dust", "icon": "wind", "photo": "swap-dust", "alt": "A woman vacuuming a bright living room",
+         "name": "Dust", "to": "Letting it build up to vacuuming often",
+         "text": "Dr. Sheela Sathyanarayana, a pediatrician and environmental epidemiologist at UW Medicine, recommends removing dust and vacuuming often to cut exposure at home.",
+         "source": "UW Medicine"},
     ]},
 ]
 ALL_SWAPS = [s for r in ROOMS for s in r["swaps"]]
-WORDS = {4: "four", 5: "five", 6: "six", 7: "seven", 8: "eight", 9: "nine", 10: "ten"}
+WORDS = {1: "one", 2: "two", 3: "three", 4: "four", 5: "five", 6: "six", 7: "seven", 8: "eight", 9: "nine", 10: "ten"}
 N = WORDS.get(len(ALL_SWAPS), str(len(ALL_SWAPS)))
+
+# ---------------------------------------------------------------- my family's swaps
+# From my family's order history, in the order we made them. "paid" is what
+# we paid at the time, before tax.
+FAMILY = [
+    {"id": "cutting-board", "name": "Cutting board", "to": "Plastic to bamboo",
+     "bought": "Allsum bamboo cutting board", "paid": "$14.97", "when": "August 2024",
+     "note": "Every cut on a plastic board scrapes off tiny pieces of plastic. The bamboo board was the cheapest swap we made and the easiest to start with."},
+    {"id": "food-storage", "name": "Food storage", "to": "Plastic to glass",
+     "bought": "Rubbermaid Brilliance glass containers, set of 9", "paid": "$79.99", "when": "October 2024",
+     "note": "Glass holds leftovers just as well as plastic. The lids are still plastic, so leave the lid off when you heat food."},
+    {"id": "spatula", "name": "Spatula", "to": "Plastic to stainless steel",
+     "bought": "Zulay stainless steel spatula", "paid": "$12.99", "when": "November 2024",
+     "note": "Plastic and nylon spatulas wear down against hot pans. Stainless steel holds up to the heat."},
+    {"id": "underwear", "name": "Underwear", "to": "Synthetic to cotton",
+     "bought": "Amazon Essentials cotton boxer briefs, pack of 5", "paid": "$18.00", "when": "December 2024",
+     "note": "Polyester and nylon are plastics, and clothes made from them shed tiny fibers. Cotton is a natural fiber."},
+    {"id": "dishwasher", "name": "Dishwasher detergent", "to": "Pods to plastic-free tablets",
+     "bought": "Wild Clean unscented tablets, later Blueland plastic-free tablets", "paid": "$19.99 a month; $23.99", "when": "April 2025; September 2025",
+     "note": "Many dishwasher pods are wrapped in a film of polyvinyl alcohol, a plastic made to dissolve in water. Plain tablets have no film at all."},
+    {"id": "toothbrush", "name": "Toothbrush", "to": "Plastic to bamboo and boar bristle",
+     "bought": "Primals boar bristle and bamboo toothbrushes", "paid": "$27.99 a pack", "when": "July 2025",
+     "note": "A standard toothbrush has a plastic handle and nylon bristles. Ours have bamboo handles and natural boar bristles."},
+]
+ON_LIST = sum(1 for f in FAMILY if any(s.get("family") == f["id"] for s in ALL_SWAPS))
 
 # ---------------------------------------------------------------- helpers
 CSS = None
@@ -94,9 +136,10 @@ def srcset(name, widths):
     return ", ".join(f"images/{name}-{w}.webp {w}w" for w in widths)
 
 
-def portrait(name, alt):
+def portrait(name, alt, eager=False):
+    load = 'fetchpriority="high"' if eager else 'loading="lazy"'
     return (f'<figure class="portrait"><img src="images/{name}-800.webp" srcset="{srcset(name, (480, 680, 800))}" '
-            f'sizes="{PORTRAIT_SIZES}" width="800" height="1000" alt="{alt}" loading="lazy" decoding="async"></figure>')
+            f'sizes="{PORTRAIT_SIZES}" width="800" height="1000" alt="{alt}" {load} decoding="async"></figure>')
 
 
 # Home hero banner: a wide 2:1 crop for laptops and a 4:3 crop for phones.
@@ -180,7 +223,7 @@ def crumbs(name, path):
         {"@type": "ListItem", "position": 2, "name": name, "item": SITE + path}]}
 
 
-PAGES = [("index.html", "Home"), ("swaps.html", "Swap List"), ("research.html", "Research")]
+PAGES = [("index.html", "Home"), ("swaps.html", "Swap List"), ("research.html", "Research"), ("family-swaps.html", "Blog")]
 
 
 def wordmark():
@@ -301,17 +344,6 @@ def wide_banner(name, alt, eager=False):
             f'<img src="images/{name}-1600.webp" srcset="{d}" sizes="100vw" width="1600" height="800" alt="{alt}" {load} decoding="async"></picture>')
 
 
-# One real photo per swap, shown on the swap cards.
-SWAP_PHOTOS = {
-    "cutting-board": ("swap-board", "A bamboo cutting board with sliced tomatoes and a steel knife"),
-    "spatula": ("swap-utensils", "Stainless steel slotted spatulas hanging on a rack"),
-    "food-storage": ("swap-glass", "Hands placing a glass jar of granola with a bamboo lid on a pantry shelf"),
-    "dishwasher": ("swap-dishwasher", "A woman loading dishes into a dishwasher in her kitchen"),
-    "toothbrush": ("swap-toothbrush", "Bamboo toothbrushes in a glass jar beside a sprig of eucalyptus"),
-    "underwear": ("swap-cotton", "A person folding a stack of clean clothes on the floor"),
-}
-
-
 def points(items):
     return "\n".join(f"""        <li>
           <div class="icon">{ICONS[i]}</div>
@@ -324,20 +356,17 @@ def statlist(items):
 
 
 def swap_card(s, room=""):
-    img, alt = SWAP_PHOTOS[s["id"]]
+    fam = (f'\n          <p class="more"><a href="family-swaps.html#{s["family"]}">How my family made this swap</a></p>'
+           if s.get("family") else "")
     return f"""      <article class="swap" id="{s['id']}">
-        <figure class="card-photo">{card_img(img, alt)}</figure>
+        <figure class="card-photo">{card_img(s['photo'], s['alt'])}</figure>
         <div class="swap-body">
           <p class="room-tag">{room}</p>
           <div class="icon">{ICONS[s['icon']]}</div>
           <h3>{s['name']}</h3>
           <p class="to">{s['to']}</p>
           <p>{s['text']}</p>
-          <ul class="facts-list">
-            <li>{ICONS['shopping-cart']}<span><b>What we bought</b> {s['bought']}</span></li>
-            <li>{ICONS['tag']}<span><b>What we paid</b> {s['paid']}</span></li>
-            <li>{ICONS['calendar']}<span><b>When</b> {s['when']}</span></li>
-          </ul>
+          <p class="source">{ICONS['flask-conical']}<span>Source: {s['source']}</span></p>{fam}
         </div>
       </article>"""
 
@@ -365,11 +394,11 @@ def closing_banner(heading, text, href, label, second=None):
 # ---------------------------------------------------------------- home
 def index():
     t = f"Less Microplastic, Same Budget: Everyday Plastic Swaps | {SITE_NAME}"
-    d = ("A free list of the everyday plastic swaps my family made, from glass food storage "
-         "to cotton clothes, with what each one cost and the research behind them.")
+    d = ("A free list of everyday plastic swaps backed by Consumer Reports, pediatricians and peer-reviewed "
+         "research, from cutting boards and food storage to clothes and underwear.")
     schema = [page_schema("WebPage", "", t, d, {"about": "Reducing microplastic exposure at home"})]
     preview = "\n".join(f"""      <a class="pcard" href="swaps.html#{s['id']}">
-        <figure class="card-photo">{card_img(*SWAP_PHOTOS[s['id']])}</figure>
+        <figure class="card-photo">{card_img(s['photo'], s['alt'])}</figure>
         <div class="pcard-body"><h3>{s['name']}</h3><p class="to">{s['to']}</p></div>
       </a>""" for s in ALL_SWAPS)
     return head(t, d, "", schema, BANNER_PRE) + nav("index.html") + f"""
@@ -412,7 +441,7 @@ def index():
       <h2>My family started swapping in 2024</h2>
       <p>I'm John Griffin, a junior at Episcopal Collegiate School in Little Rock. A couple of years ago, I didn't know much about microplastics either. Too many people still don't. That changed in 2024, when I started watching health experts and doctors explain the research.</p>
       <p>My dad did his own research and talked with doctors he knows, and they confirmed what I had learned. So we started swapping. Between August 2024 and September 2025, we replaced our plastic cutting board, spatula, food containers, dishwasher pods, toothbrushes and even underwear.</p>
-      <div class="btn-row"><a href="research.html" class="btn ghost">Read the research</a></div>
+      <div class="btn-row"><a href="family-swaps.html" class="btn ghost">See what my family swapped</a></div>
     </div>
   </div>
 </section>
@@ -422,8 +451,8 @@ def index():
     <div>
       <h2>Cut the plastic in your home in three steps</h2>
       <ol class="steps-list">
-        <li><div><h3>Download the free swap list</h3><p>{N.capitalize()} swaps, room by room, with what each one replaces and what we paid.</p></div></li>
-        <li><div><h3>Make the swaps that fit your budget</h3><p>Start with the cheap ones. A bamboo cutting board cost us about $15.</p></div></li>
+        <li><div><h3>Download the free swap list</h3><p>{N.capitalize()} swaps, room by room, each backed by Consumer Reports, pediatricians or peer-reviewed research.</p></div></li>
+        <li><div><h3>Make the swaps that fit your budget</h3><p>Start with the cheap ones, like loose-leaf tea or a wooden spoon.</p></div></li>
         <li><div><h3>Tell me what worked</h3><p>Let me know which swaps were easiest for your family, so the list keeps improving.</p></div></li>
       </ol>
       <div class="btn-row"><a href="swaps.html" class="btn">Download the Free Swap List</a></div>
@@ -435,10 +464,10 @@ def index():
 <section id="swaps">
   <div class="wrap">
     <div class="section-head center">
-      <h2>{N.capitalize()} swaps my family made</h2>
+      <h2>{N.capitalize()} swaps that cut plastic at home</h2>
       <p>If you replace the products on this list, you'll be exposed to fewer microplastics day to day.</p>
     </div>
-    <div class="pcards">
+    <div class="pcards four preview">
 {preview}
     </div>
   </div>
@@ -473,7 +502,7 @@ def index():
     <p class="cite-line">Sources: Yadav et al., 2023; Hussain et al., 2023; Napper and Thompson, 2016.</p>
   </div>
 </section>
-""" + closing_banner("Start with the free swap list", f"{N.capitalize()} swaps, each with the price we paid.",
+""" + closing_banner("Start with the free swap list", f"{N.capitalize()} swaps, each backed by a trusted source.",
                      "swaps.html", "Download the Free Swap List", ("research.html", "Read the research")) + sources(
         ["leslie", "textile", "nejm", "yadav", "hussain", "napper"],
         note="Photos: Unsplash.") + "\n</main>\n" + foot()
@@ -482,8 +511,8 @@ def index():
 # ---------------------------------------------------------------- swap list
 def swaps():
     t = f"The Free Plastic Swap List: {N.capitalize()} Everyday Swaps | {SITE_NAME}"
-    d = (f"{N.capitalize()} plastic swaps my family made between August 2024 and September 2025, "
-         "room by room, with what each one replaced and what we paid.")
+    d = (f"{N.capitalize()} everyday plastic swaps, room by room, each backed by Consumer Reports, "
+         "the American Academy of Pediatrics, UW Medicine or a peer-reviewed study.")
     schema = [page_schema("WebPage", "swaps.html", t, d, {"about": "Plastic-free product swaps"}), crumbs("Swap List", "swaps.html")]
     rooms = []
     for i, r in enumerate(ROOMS):
@@ -508,7 +537,7 @@ def swaps():
   <div class="wrap split">
     <div>
       <h1>The free plastic swap list</h1>
-      <p class="lede">{N.capitalize()} swaps my family made between August 2024 and September 2025, room by room, with what each one replaced and what we paid.</p>
+      <p class="lede">{N.capitalize()} swaps, room by room, each backed by Consumer Reports, the American Academy of Pediatrics, UW Medicine or a peer-reviewed study.</p>
       <div class="btn-row">
         <a href="swap-list.pdf" class="btn" download>Download the PDF</a>
       </div>
@@ -517,9 +546,10 @@ def swaps():
   </div>
 </header>
 {"".join(rooms)}
-""" + cta("Start with the $15 swap", "A bamboo cutting board cost us $14.97, and it works like any other board.",
-          "swap-list.pdf", "Download the PDF", ("research.html", "Read the research"), download=True) + credits(
-        "Photos: Unsplash.") + "\n</main>\n" + foot()
+""" + cta("See what my family swapped", f"{WORDS[len(FAMILY)].capitalize()} of our own swaps, with what we bought and what we paid.",
+          "family-swaps.html", "Read our swaps", ("swap-list.pdf", "Download the PDF")) + sources(
+        ["cr", "aap", "uw", "yadav", "hussain", "qian", "hernandez", "napper"],
+        note="Photos: Unsplash.") + "\n</main>\n" + foot()
 
 
 # ---------------------------------------------------------------- research
@@ -632,11 +662,59 @@ def research():
     </div>
   </div>
 </section>
-""" + closing_banner("Start with the free swap list", f"{N.capitalize()} swaps my family made, each with the price we paid.",
+""" + closing_banner("Start with the free swap list", f"{N.capitalize()} swaps, each backed by a trusted source.",
                      "swaps.html", "Download the Free Swap List") + sources(
         ["leslie", "ragusa", "nejm", "brain", "hyman", "yadav", "hussain", "qian", "napper"],
         note="Photos: Unsplash.") + "\n</main>\n" + foot()
 
+
+
+# ---------------------------------------------------------------- blog post
+def family():
+    t = f"What My Family Swapped, and What We Paid | {SITE_NAME}"
+    d = (f"The {WORDS[len(FAMILY)]} plastic swaps my family made between August 2024 and September 2025, "
+         "from a bamboo cutting board to cotton underwear, with what we bought and what each one cost.")
+    schema = [page_schema("BlogPosting", "family-swaps.html", t, d, {"headline": "What my family swapped, and what we paid"}),
+              crumbs("Blog", "family-swaps.html")]
+    rows = "\n".join(f"""        <tr><th scope="row"><a href="#{f['id']}">{f['name']}</a></th><td>{f['bought']}</td><td>{f['paid']}</td><td>{f['when']}</td></tr>""" for f in FAMILY)
+    notes = "\n".join(f"""    <h3 id="{f['id']}">{f['name']}: {f['to'].lower()}</h3>
+    <p>{f['note']}</p>""" for f in FAMILY)
+    return head(t, d, "family-swaps.html", schema, preload("blog-dishwasher", (480, 680, 800), PORTRAIT_SIZES, 800)) + nav("family-swaps.html") + f"""
+<main id="main">
+
+<header class="page-hero">
+  <div class="wrap split">
+    <div>
+      <p class="byline">By {AUTHOR}</p>
+      <h1>What my family swapped, and what we paid</h1>
+      <p class="lede">Between August 2024 and September 2025, my family replaced {WORDS[len(FAMILY)]} everyday plastic products. Here is each swap, what we bought and what it cost.</p>
+    </div>
+    {portrait("blog-dishwasher", "A woman loading dishes into a dishwasher in her kitchen", eager=True)}
+  </div>
+</header>
+
+<section class="post">
+  <div class="wrap prose">
+    <p>I started researching microplastics in 2024 by watching health experts and doctors explain the studies. My dad did his own research and talked with doctors he knows. They confirmed what I had read, so we started changing what we buy.</p>
+    <p>We started in the kitchen, where food touches plastic every day, and moved on from there. Everything below comes straight from our order history.</p>
+    <div class="table-wrap">
+      <table class="price-table">
+        <thead><tr><th scope="col">Swap</th><th scope="col">What we bought</th><th scope="col">What we paid</th><th scope="col">When</th></tr></thead>
+        <tbody>
+{rows}
+        </tbody>
+      </table>
+    </div>
+    <p class="cite-line">Prices are what we paid at the time, before tax.</p>
+    <h2>Each swap</h2>
+{notes}
+    <h2>What comes next</h2>
+    <p>{WORDS[ON_LIST].capitalize()} of these {WORDS[len(FAMILY)]} swaps are on my free swap list, along with {WORDS[len(ALL_SWAPS) - ON_LIST]} more that Consumer Reports, pediatricians and researchers recommend.</p>
+  </div>
+</section>
+""" + cta("See the full swap list", f"{N.capitalize()} swaps, room by room, each backed by a trusted source.",
+          "swaps.html", "Download the Free Swap List", ("research.html", "Read the research")) + credits(
+        "Photo: Unsplash.") + "\n</main>\n" + foot()
 
 def sitemap():
     urls = "\n".join(f"  <url><loc>{SITE}{'' if h == 'index.html' else h}</loc><lastmod>{TODAY}</lastmod></url>" for h, _ in PAGES)
@@ -644,7 +722,7 @@ def sitemap():
 
 
 if __name__ == "__main__":
-    for name, fn in {"index.html": index, "swaps.html": swaps, "research.html": research}.items():
+    for name, fn in {"index.html": index, "swaps.html": swaps, "research.html": research, "family-swaps.html": family}.items():
         with open(name, "w") as f:
             f.write(fn())
         print("wrote", name)
