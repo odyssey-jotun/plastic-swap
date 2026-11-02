@@ -196,7 +196,7 @@ def head(title, desc, path="", schema=None, pre=""):
 <meta property="og:image" content="{SITE}images/og.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Less microplastic. Same budget. A free list of everyday plastic swaps.">
+<meta property="og:image:alt" content="Cut the plastic, keep your health. A free list of everyday plastic swaps.">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 {pre}<link rel="preload" href="fonts/public-sans.woff2" as="font" type="font/woff2" crossorigin>
@@ -391,7 +391,7 @@ def closing_banner(heading, text, href, label, second=None):
 
 # ---------------------------------------------------------------- home
 def index():
-    t = f"Less Microplastic, Same Budget: Everyday Plastic Swaps | {SITE_NAME}"
+    t = f"Cut the Plastic, Keep Your Health: Everyday Plastic Swaps | {SITE_NAME}"
     d = ("A free list of everyday plastic swaps backed by Consumer Reports, pediatricians and peer-reviewed "
          "research, from cutting boards and food storage to clothes and underwear.")
     schema = [page_schema("WebPage", "", t, d, {"about": "Reducing microplastic exposure at home"})]
@@ -409,7 +409,7 @@ def index():
   </picture>
   <div class="wrap">
     <div class="banner-text">
-      <h1>Less microplastic. <span>Same budget.</span></h1>
+      <h1>Cut the plastic, <span>keep your health.</span></h1>
       <div class="btn-row">
         <a href="swaps.html" class="btn light">Download the Free Swap List</a>
       </div>
