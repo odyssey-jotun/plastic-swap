@@ -454,3 +454,10 @@ footer ul a:hover{ color: var(--mint); }
   .solo .photo{ display: none !important; }
   .buy{ display: none; }
 }
+
+/* ---------------- blog ---------------- */
+.pcards.two{ grid-template-columns: repeat(2, 1fr); max-width: 760px; margin: 0 auto; }
+@media (max-width: 620px){ .pcards.two{ grid-template-columns: 1fr; } }
+.prose .buy{ margin: 0 0 12px; }
+.prose .buy p{ font-size: 1rem; }
+.buy small{ display: block; font-weight: 400; color: var(--ink-soft); font-size: 0.92rem; margin-top: 2px; }

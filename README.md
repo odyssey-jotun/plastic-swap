@@ -16,6 +16,8 @@ GitHub Pages serves `main` at root. The preview is kept out of search (`noindex`
 | --- | --- |
 | `index.html` | StoryBrand home page |
 | `swaps.html` | The swap list: eight swaps, room by room, each with its source |
+| `blog.html` | Blog index: one card per post |
+| `cotton-underwear.html` | Blog post: cotton vs. polyester underwear, with two Amazon picks |
 | `family-swaps.html` | Blog post: the six swaps my family made, from our order history, with prices and dates |
 | `research.html` | What studies have found about microplastics in the body, the chemicals in plastic, and where plastic enters a home |
 | `checklist.html` | The printable checklist, not linked from the site; `tools/pdf.cjs` prints it to `swap-list.pdf` |

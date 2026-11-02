@@ -35,6 +35,7 @@ SOURCES = {
     "aap": "American Academy of Pediatrics. <em>Food Additives and Child Health</em>, policy statement. Pediatrics 142, no. 2 (2018).",
     "uw": "UW Medicine. <em>Limiting Your Exposure to Microplastics at Home</em>, with Dr. Sheela Sathyanarayana.",
     "hernandez": "Hernandez, Laura M., et al. <em>Plastic Teabags Release Billions of Microparticles and Nanoparticles into Tea.</em> Environmental Science &amp; Technology 53, no. 21 (2019).",
+    "ceh": "Center for Environmental Health. <em>New Testing Shows High Levels of BPA in Sports Bras and Athletic Shirts</em>, press release (October 2022), and its BPA fact sheet (2023).",
     "soltani": "Soltani, Neda Sharifi, Mark Patrick Taylor, and Scott Paton Wilson. <em>Quantification and Exposure Assessment of Microplastics in Australian Indoor House Dust.</em> Environmental Pollution 283 (2021).",
     "textile": "Textile Exchange. <em>Materials Market Report 2024.</em> Polyester was 57% of global fiber production in 2023.",
 }
@@ -72,9 +73,10 @@ ROOMS = [
     ]},
     {"id": "closet", "name": "Closet", "intro": "Polyester is in a lot of everyday clothes.", "photo": "room-closet", "photo_left": True, "swaps": [
         {"id": "clothes", "icon": "shirt", "photo": "swap-cotton", "alt": "A person folding a stack of clean clothes on the floor",
-         "name": "Clothes and underwear", "to": "Polyester and nylon to cotton, linen or wool",
-         "text": "Polyester and nylon are plastics, and they shed fibers in the wash. One load of polyester clothes can shed about 496,030 fibers. Cotton, linen and wool are natural fibers.",
-         "source": "Napper and Thompson, 2016", "family": "underwear"},
+         "name": "Clothes", "to": "Polyester and spandex to cotton, linen or wool",
+         "text": "Polyester and nylon are plastics, and they shed fibers in the wash. One load of polyester clothes can shed about 496,030 fibers. In 2022 testing, polyester-spandex sports bras and athletic shirts could expose the people wearing them to up to 22 times California's limit for BPA.",
+         "source": "Napper and Thompson, 2016; Center for Environmental Health, 2022", "family": "underwear",
+         "more": ("cotton-underwear.html", "Read: cotton vs. polyester underwear")},
     ]},
     {"id": "home", "name": "Around the house", "intro": "Microplastics settle into household dust.", "photo": "room-house", "photo_left": False, "swaps": [
         {"id": "rugs", "icon": "wind", "photo": "swap-dust", "alt": "A woman vacuuming a bright living room",
@@ -93,8 +95,6 @@ BUY = {
     "reheating": [("Pyrex 2-quart glass baking dish", "B00FN3M59S")],
     "water": [("Klean Kanteen 27 oz stainless steel bottle", "B0DK9NS2WR")],
     "tea": [("Ohtomber stainless steel tea infuser", "B0CFQW79K8")],
-    "clothes": [("Amazon Essentials men's cotton boxer briefs", "B0FW47NTD3"),
-                ("Amazon Essentials women's cotton briefs", "B0BGGWKLMK")],
     "rugs": [("Safavieh natural jute rug, 5 x 8 ft", "B004Q07E5E")],
 }
 # The one-line reason on the printed checklist.
@@ -105,7 +105,7 @@ WHY = {
     "reheating": "Microwaving plastic released up to 4 million particles per square centimeter.",
     "water": "A liter of bottled water held about 240,000 plastic particles.",
     "tea": "One plastic tea bag released about 11.6 billion particles into a cup.",
-    "clothes": "One load of polyester laundry can shed about 496,000 fibers.",
+    "clothes": "Polyester-spandex workout clothes tested up to 22 times California's BPA limit.",
     "rugs": "Homes with mostly carpet had nearly double the plastic fibers in their dust.",
 }
 
@@ -252,7 +252,8 @@ def crumbs(name, path):
         {"@type": "ListItem", "position": 2, "name": name, "item": SITE + path}]}
 
 
-PAGES = [("index.html", "Home"), ("swaps.html", "Swap List"), ("research.html", "Research"), ("family-swaps.html", "Blog")]
+PAGES = [("index.html", "Home"), ("swaps.html", "Swap List"), ("research.html", "Research"), ("blog.html", "Blog")]
+POSTS = ["blog.html", "family-swaps.html", "cotton-underwear.html"]
 
 
 def wordmark():
@@ -389,6 +390,7 @@ def swap_card(s, room=""):
             <p>{ICONS['shopping-cart']}<span>{name}</span></p>
             <a class="btn small" href="{amazon(asin)}" target="_blank" rel="noopener nofollow">View on Amazon</a>
           </div>''' for name, asin in BUY.get(s['id'], []))
+    more = f'\n          <p class="more"><a href="{s["more"][0]}">{s["more"][1]}</a></p>' if s.get("more") else ""
     return f"""      <article class="swap" id="{s['id']}">
         <figure class="card-photo">{card_img(s['photo'], s['alt'])}</figure>
         <div class="swap-body">
@@ -398,7 +400,7 @@ def swap_card(s, room=""):
           <p class="to">{s['to']}</p>
           <p>{s['text']}</p>
           <p class="source">{ICONS['flask-conical']}<span>Source: {s['source']}</span></p>
-{buy}
+{buy}{more}
         </div>
       </article>"""
 
@@ -602,7 +604,7 @@ def swaps():
 {"".join(rooms)}
 """ + cta("Keep the list in your kitchen", "Print the one-page PDF and check off each swap as you make it.",
           "swap-list.pdf", "Download the PDF", ("research.html", "Read the research"), download=True) + sources(
-        ["cr", "aap", "uw", "yadav", "hussain", "qian", "hernandez", "napper", "soltani"],
+        ["cr", "aap", "uw", "yadav", "hussain", "qian", "hernandez", "napper", "ceh", "soltani"],
         note="Photos: Unsplash.") + "\n</main>\n" + foot()
 
 
@@ -729,11 +731,11 @@ def family():
     d = (f"The {WORDS[len(FAMILY)]} plastic swaps my family made between August 2024 and September 2025, "
          "from a bamboo cutting board to cotton underwear, with what we bought and what each one cost.")
     schema = [page_schema("BlogPosting", "family-swaps.html", t, d, {"headline": "What my family swapped, and what we paid"}),
-              crumbs("Blog", "family-swaps.html")]
+              crumbs("Blog", "blog.html")]
     rows = "\n".join(f"""        <tr><th scope="row"><a href="#{f['id']}">{f['name']}</a></th><td>{f['bought']}</td><td>{f['paid']}</td><td>{f['when']}</td></tr>""" for f in FAMILY)
     notes = "\n".join(f"""    <h3 id="{f['id']}">{f['name']}: {f['to'].lower()}</h3>
     <p>{f['note']}</p>""" for f in FAMILY)
-    return head(t, d, "family-swaps.html", schema, preload("blog-dishwasher", (480, 680, 800), PORTRAIT_SIZES, 800)) + nav("family-swaps.html") + f"""
+    return head(t, d, "family-swaps.html", schema, preload("blog-dishwasher", (480, 680, 800), PORTRAIT_SIZES, 800)) + nav("blog.html") + f"""
 <main id="main">
 
 <header class="page-hero">
@@ -770,6 +772,88 @@ def family():
           "swaps.html", "Download the Free Swap List", ("research.html", "Read the research")) + credits(
         "Photo: Unsplash.") + "\n</main>\n" + foot()
 
+
+# ---------------------------------------------------------------- blog
+UNDERWEAR = [("Amazon Essentials men's cotton boxer briefs", "B0FW47NTD3", "100% cotton, OEKO-TEX Standard 100 certified, pack of 5."),
+             ("Amazon Essentials women's cotton briefs", "B0BGGWKLMK", "95% cotton and 5% elastane, sold in multipacks.")]
+
+
+def underwear():
+    t = f"Cotton vs. Polyester Underwear: What the Research Says About Plastic | {SITE_NAME}"
+    d = ("Polyester, nylon and spandex are plastics. What studies and product testing have found about synthetic "
+         "clothes, and what to look for in cotton underwear.")
+    schema = [page_schema("BlogPosting", "cotton-underwear.html", t, d, {"headline": "Cotton vs. polyester underwear: what the research says about plastic"}),
+              crumbs("Blog", "blog.html")]
+    picks = "\n".join(f"""      <div class="buy">
+        <p>{ICONS['shopping-cart']}<span>{n}<br><small>{note}</small></span></p>
+        <a class="btn small" href="{amazon(a)}" target="_blank" rel="noopener nofollow">View on Amazon</a>
+      </div>""" for n, a, note in UNDERWEAR)
+    return head(t, d, "cotton-underwear.html", schema) + nav("blog.html") + f"""
+<main id="main">
+
+<header class="page-hero">
+  <div class="wrap split">
+    <div>
+      <p class="byline">By {AUTHOR}</p>
+      <h1>Cotton vs. polyester underwear: what the research says about plastic</h1>
+      <p class="lede">Polyester, nylon and spandex are all plastics, and a lot of underwear is made from them. Here is what testing has found, and what to look for instead.</p>
+    </div>
+    {photo("room-closet", "A person folding a stack of clean clothes")}
+  </div>
+</header>
+
+<section class="post">
+  <div class="wrap prose">
+    <h2>Synthetic fabric sheds plastic</h2>
+    <p>Polyester and nylon shed tiny fibers every time they go through the wash. In one study, a single 6 kg load of polyester clothes shed about 496,030 fibers. Those fibers end up in water and in household dust.</p>
+    <h2>BPA in polyester-spandex clothes</h2>
+    <p>BPA is a chemical used in some plastics. California sets a limit of 3 micrograms a day for BPA taken in through the skin. In 2022, the Center for Environmental Health tested polyester-spandex sports bras and athletic shirts and found that some could expose the people wearing them to up to 22 times that limit. Its fact sheet reports polyester-spandex socks at up to 31 times the limit.</p>
+    <p>Those tests covered workout clothes and socks, not underwear. Underwear is made from the same fabrics, though, and it sits against your skin all day.</p>
+    <h2>What to look for</h2>
+    <ul>
+      <li>A label that says 100% cotton, or cotton with a small amount of elastane for stretch.</li>
+      <li>An OEKO-TEX Standard 100 label, which means the fabric was tested for harmful substances.</li>
+      <li>Waistbands almost always have some elastic. Look for cotton where the fabric touches your skin.</li>
+    </ul>
+    <h2>Two places to start</h2>
+{picks}
+    <p>My family switched to cotton boxers in December 2024.</p>
+  </div>
+</section>
+""" + cta("See the full swap list", f"{N.capitalize()} swaps, room by room, each backed by a trusted source.",
+          "swaps.html", "Download the Free Swap List", ("research.html", "Read the research")) + sources(
+        ["napper", "ceh"], note="Photo: Unsplash.") + "\n</main>\n" + foot()
+
+
+def blog():
+    t = f"Blog | {SITE_NAME}"
+    d = "Posts on cutting plastic at home: what my family swapped, and cotton vs. polyester underwear."
+    schema = [page_schema("Blog", "blog.html", t, d), crumbs("Blog", "blog.html")]
+    items = [("family-swaps.html", "swap-glass", "Glass food storage containers on a pantry shelf",
+              "What my family swapped, and what we paid", "Six swaps from our order history, with prices and dates."),
+             ("cotton-underwear.html", "swap-cotton", "A person folding a stack of clean clothes",
+              "Cotton vs. polyester underwear", "What testing has found about synthetic fabric, and what to look for.")]
+    cards = "\n".join(f"""      <a class="pcard" href="{h}">
+        <figure class="card-photo">{card_img(img, alt)}</figure>
+        <div class="pcard-body"><h3>{title}</h3><p class="to">{text}</p></div>
+      </a>""" for h, img, alt, title, text in items)
+    return head(t, d, "blog.html", schema) + nav("blog.html") + f"""
+<main id="main">
+
+<section>
+  <div class="wrap">
+    <div class="section-head center">
+      <h1>Blog</h1>
+      <p>Notes on cutting the plastic in your home.</p>
+    </div>
+    <div class="pcards two">
+{cards}
+    </div>
+  </div>
+</section>
+""" + cta("See the full swap list", f"{N.capitalize()} swaps, room by room, each backed by a trusted source.",
+          "swaps.html", "Download the Free Swap List") + "\n</main>\n" + foot()
+
 # ---------------------------------------------------------------- printable checklist
 # Printed to swap-list.pdf by tools/pdf.cjs. Not linked from the site.
 CHECKLIST_CSS = """
@@ -788,7 +872,7 @@ h1{ font-size: 25pt; line-height: 1.1; margin: 0 0 5pt; letter-spacing: -0.01em;
 .body{ padding: 0.22in 0.55in 0; flex: 1; }
 h2{ font-size: 12pt; margin: 13pt 0 5pt; color: #1C4C42; }
 .row{ display: grid; grid-template-columns: 16pt 0.78in 1.55in 1fr 1.9in; gap: 10pt; align-items: center;
-  padding: 7pt 0; border-top: 1px solid #D5E3DE; }
+  padding: 8.5pt 0; border-top: 1px solid #D5E3DE; }
 .row:last-child{ border-bottom: 1px solid #D5E3DE; }
 .box{ width: 14pt; height: 14pt; border: 1.6px solid #1C4C42; border-radius: 3pt; }
 .row img{ width: 0.78in; height: 0.56in; object-fit: cover; border-radius: 6pt; display: block; }
@@ -809,7 +893,12 @@ def checklist():
         rows = []
         for sw in r["swaps"]:
             links = "".join(f'<a href="{amazon(a)}">{n}</a>' for n, a in BUY.get(sw["id"], []))
-            buy = f"{links}<small>on Amazon</small>" if links else "<small>Nothing to buy</small>"
+            if links:
+                buy = f"{links}<small>on Amazon</small>"
+            elif sw.get("more"):
+                buy = f'<a href="{SITE}{sw["more"][0]}">Cotton underwear guide</a><small>on the site</small>'
+            else:
+                buy = "<small>Nothing to buy</small>"
             rows.append(f"""    <div class="row">
       <div class="box"></div>
       <img src="images/{sw['photo']}-480.webp" alt="">
@@ -836,7 +925,7 @@ def checklist():
 <div class="body">
 {chr(10).join(rooms)}
 </div>
-<p class="foot"><b>Sources:</b> Consumer Reports, 2024 and 2025; American Academy of Pediatrics, 2018; UW Medicine; Yadav et al., 2023; Hussain et al., 2023; Qian et al., 2024; Hernandez et al., 2019; Napper and Thompson, 2016; Soltani et al., 2021. Full list and research at <b>odyssey-jotun.github.io/plastic-swap</b></p>
+<p class="foot"><b>Sources:</b> Consumer Reports, 2024 and 2025; American Academy of Pediatrics, 2018; UW Medicine; Yadav et al., 2023; Hussain et al., 2023; Qian et al., 2024; Hernandez et al., 2019; Napper and Thompson, 2016; Center for Environmental Health, 2022; Soltani et al., 2021. Full list and research at <b>odyssey-jotun.github.io/plastic-swap</b></p>
 </div>
 </body>
 </html>
@@ -844,12 +933,12 @@ def checklist():
 
 
 def sitemap():
-    urls = "\n".join(f"  <url><loc>{SITE}{'' if h == 'index.html' else h}</loc><lastmod>{TODAY}</lastmod></url>" for h, _ in PAGES)
+    urls = "\n".join(f"  <url><loc>{SITE}{'' if h == 'index.html' else h}</loc><lastmod>{TODAY}</lastmod></url>" for h in [h for h, _ in PAGES] + POSTS[1:])
     return f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n{urls}\n</urlset>\n'
 
 
 if __name__ == "__main__":
-    for name, fn in {"index.html": index, "swaps.html": swaps, "research.html": research, "family-swaps.html": family, "checklist.html": checklist}.items():
+    for name, fn in {"index.html": index, "swaps.html": swaps, "research.html": research, "family-swaps.html": family, "cotton-underwear.html": underwear, "blog.html": blog, "checklist.html": checklist}.items():
         with open(name, "w") as f:
             f.write(fn())
         print("wrote", name)
