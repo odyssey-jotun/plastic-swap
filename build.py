@@ -421,14 +421,15 @@ def index():
   <div class="wrap split flip">
     {photo("doctor-office", "A doctor in a white coat talking with a patient across his desk")}
     <div>
-      <h2>Plastic is doing damage inside the body</h2>
+      <h2>Plastic wreaks havoc on our bodies</h2>
       <p class="lead">Tiny pieces of plastic come off the boards, containers and clothes people use every day. Scientists now find them in blood, arteries and brains.</p>
+      <p>Research shows that plastic has the following effects:</p>
       <ul class="points">
 {points([("heart-pulse", "Higher risk of heart attack and stroke", "Patients with plastic in their artery plaque were about four and a half times as likely to have a heart attack or stroke, or to die, within three years."),
-         ("brain", "Building up in the brain", "Brain samples from 2024 held about 50% more microplastic than samples from 2016."),
+         ("brain", "More plastic in brains with dementia", "In a 2025 study, the brains of people with dementia held several times more microplastic than other brains."),
          ("flask-conical", "Chemicals tied to heart disease deaths", "DEHP, a chemical that makes plastic soft, was linked to more than 356,000 heart disease deaths worldwide in 2018.")])}
       </ul>
-      <p>No one should have to choose between their health and their budget.</p>
+      <p>The dishes, clothes, containers and tools we use should enhance our lives, not jeopardize our health.</p>
     </div>
   </div>
 </section>
