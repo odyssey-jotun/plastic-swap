@@ -16,6 +16,7 @@ GitHub Pages serves `main` at root. The preview is kept out of search (`noindex`
 | --- | --- |
 | `index.html` | StoryBrand home page |
 | `swaps.html` | The swap list, room by room, with what we bought, what we paid and when |
+| `research.html` | What studies have found about microplastics in the body, the chemicals in plastic, and where plastic enters a home |
 | `swap-list.pdf` | The same list on one printable page (the "Download the PDF" button) |
 
 ## Editing
@@ -38,4 +39,8 @@ Pages, `sitemap.xml`, `robots.txt` and `favicon.svg` are generated. Change copy 
 
 ## Photos
 
-The portraits are my own. The pantry photo is from Unsplash (`7pV3h8I4NkY`, Cabri Caldwell) under the Unsplash License.
+The home hero is my own portrait, and it is the only photo of me on the site. The rest are from Unsplash under the Unsplash License: pantry jars (`7pV3h8I4NkY`, Cabri Caldwell), the swap list hero (`pazs-Hi5mf8`, Land O'Lakes, Inc.) and the research hero (`JxoWb7wHqnA`, National Cancer Institute).
+
+## Icons
+
+Lucide icons (ISC license), saved in `tools/icons/`. The cutting board, spatula, tablet, toothbrush and shorts icons are drawn in `build.py` in the same style.
