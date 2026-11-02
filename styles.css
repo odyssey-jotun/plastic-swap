@@ -420,3 +420,5 @@ footer ul a:hover{ color: var(--mint); }
   .hero-split .banner-text{ max-width: 540px; }
   .hero-split h1{ font-size: clamp(2rem, 3.3vw, 3.1rem); }
 }
+
+.points + p{ margin-top: 28px; }

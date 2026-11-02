@@ -419,15 +419,16 @@ def index():
 
 <section id="problem" class="band">
   <div class="wrap split flip">
-    {photo("shopper", "A shopper carrying a green basket past shelves of fruit packed in plastic")}
+    {photo("doctor-office", "A doctor in a white coat talking with a patient across his desk")}
     <div>
-      <h2>Plastic is harder to avoid than it looks</h2>
-      <p class="lead">It shows up in the food, clothes and cleaning products people use every day, and now it shows up inside people too.</p>
+      <h2>Plastic is doing damage inside the body</h2>
+      <p class="lead">Tiny pieces of plastic come off the boards, containers and clothes people use every day. Scientists now find them in blood, arteries and brains.</p>
       <ul class="points">
-{points([("droplet", "Plastic is already in people's blood", "In a 2022 study, scientists found plastic particles in the blood of 17 of 22 healthy adults."),
-         ("search", "Good swaps are hard to find", "Polyester made up 57% of all the fiber produced in 2023, and the alternatives people do find often cost too much."),
-         ("heart-pulse", "No one should have to choose between their health and saving money", "Patients with plastic in their artery plaque were about four and a half times as likely to have a heart attack or stroke, or to die, within three years.")])}
+{points([("heart-pulse", "Higher risk of heart attack and stroke", "Patients with plastic in their artery plaque were about four and a half times as likely to have a heart attack or stroke, or to die, within three years."),
+         ("brain", "Building up in the brain", "Brain samples from 2024 held about 50% more microplastic than samples from 2016."),
+         ("flask-conical", "Chemicals tied to heart disease deaths", "DEHP, a chemical that makes plastic soft, was linked to more than 356,000 heart disease deaths worldwide in 2018.")])}
       </ul>
+      <p>No one should have to choose between their health and their budget.</p>
     </div>
   </div>
 </section>
@@ -502,7 +503,7 @@ def index():
 </section>
 """ + closing_banner("Start with the free swap list", f"{N.capitalize()} swaps, each backed by a trusted source.",
                      "swaps.html", "Download the Free Swap List", ("research.html", "Read the research")) + sources(
-        ["leslie", "textile", "nejm", "yadav", "hussain", "napper"],
+        ["leslie", "nejm", "brain", "hyman", "yadav", "hussain", "napper"],
         note="Photos: Unsplash.") + "\n</main>\n" + foot()
 
 
@@ -635,17 +636,17 @@ def research():
   <div class="wrap">
     <div class="section-head center">
       <h2>Where plastic enters a home</h2>
-      <p>Four everyday sources, and the swap my family made for each one we could.</p>
+      <p>Four everyday sources, and the swap for each one.</p>
     </div>
     <div class="pcards four">
 {source_card("src-board", "A bamboo cutting board with sliced red pepper and a knife", "79 million", "Cutting boards",
-             "A year of chopping on a polypropylene board can release about 79 million microplastic particles.", ("swaps.html#cutting-board", "My swap: bamboo"))}
+             "A year of chopping on a polypropylene board can release about 79 million microplastic particles.", ("swaps.html#cutting-board", "The swap: wood or bamboo"))}
 {source_card("src-microwave", "A microwave and a dish rack on a wooden kitchen counter", "4 million", "Heated containers",
-             "Three minutes in the microwave released as many as 4 million microplastic particles from each square centimeter of a plastic container.", ("swaps.html#food-storage", "My swap: glass"))}
+             "Three minutes in the microwave released as many as 4 million microplastic particles from each square centimeter of a plastic container.", ("swaps.html#food-storage", "The swap: glass"))}
 {source_card("src-water", "Rows of plastic water bottles with white caps", "240,000", "Bottled water",
-             "A 2024 study counted about 240,000 plastic particles in a liter of bottled water. Nine in ten were nanoplastics.")}
+             "A 2024 study counted about 240,000 plastic particles in a liter of bottled water. Nine in ten were nanoplastics.", ("swaps.html#water", "The swap: a steel bottle"))}
 {source_card("src-laundry", "A woman adding detergent to a front-loading washing machine", "496,030", "Polyester laundry",
-             "One 6 kg load of polyester clothes can shed about 496,030 fibers in the wash.", ("swaps.html#underwear", "My swap: cotton"))}
+             "One 6 kg load of polyester clothes can shed about 496,030 fibers in the wash.", ("swaps.html#clothes", "The swap: cotton"))}
     </div>
     <p class="cite-line center">Sources: Yadav et al., 2023; Hussain et al., 2023; Qian et al., 2024; Napper and Thompson, 2016.</p>
   </div>
