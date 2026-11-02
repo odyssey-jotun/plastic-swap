@@ -94,7 +94,7 @@ BUY = {
     "tea": [("Ohtomber stainless steel tea infuser", "B0CFQW79K8")],
     "clothes": [("Amazon Essentials men's cotton boxer briefs", "B0FW47NTD3"),
                 ("Amazon Essentials women's cotton briefs", "B0BGGWKLMK")],
-    "dust": [("Shark Navigator Lift-Away vacuum with HEPA filter", "B004Q4DRJW")],
+    "dust": [],
 }
 # The one-line reason on the printed checklist.
 WHY = {
@@ -387,7 +387,7 @@ def swap_card(s, room=""):
     buy = "\n".join(f'''          <div class="buy">
             <p>{ICONS['shopping-cart']}<span>{name}</span></p>
             <a class="btn small" href="{amazon(asin)}" target="_blank" rel="noopener nofollow">View on Amazon</a>
-          </div>''' for name, asin in BUY[s['id']])
+          </div>''' for name, asin in BUY.get(s['id'], []))
     return f"""      <article class="swap" id="{s['id']}">
         <figure class="card-photo">{card_img(s['photo'], s['alt'])}</figure>
         <div class="swap-body">
@@ -807,13 +807,14 @@ def checklist():
     for r in ROOMS:
         rows = []
         for sw in r["swaps"]:
-            links = "".join(f'<a href="{amazon(a)}">{n}</a>' for n, a in BUY[sw["id"]])
+            links = "".join(f'<a href="{amazon(a)}">{n}</a>' for n, a in BUY.get(sw["id"], []))
+            buy = f"{links}<small>on Amazon</small>" if links else "<small>Nothing to buy</small>"
             rows.append(f"""    <div class="row">
       <div class="box"></div>
       <img src="images/{sw['photo']}-480.webp" alt="">
       <div class="swap"><b>{sw['name']}</b><span>{sw['to']}</span></div>
       <div class="why">{WHY[sw['id']]}</div>
-      <div class="buy">{links}<small>on Amazon</small></div>
+      <div class="buy">{buy}</div>
     </div>""")
         rooms.append(f'  <h2>{r["name"]}</h2>\n' + "\n".join(rows))
     return f"""<!DOCTYPE html>

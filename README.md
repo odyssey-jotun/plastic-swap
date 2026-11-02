@@ -19,7 +19,7 @@ GitHub Pages serves `main` at root. The preview is kept out of search (`noindex`
 | `family-swaps.html` | Blog post: the six swaps my family made, from our order history, with prices and dates |
 | `research.html` | What studies have found about microplastics in the body, the chemicals in plastic, and where plastic enters a home |
 | `checklist.html` | The printable checklist, not linked from the site; `tools/pdf.cjs` prints it to `swap-list.pdf` |
-| `swap-list.pdf` | One-page checklist: a box to tick, the reason and a clickable Amazon product for each swap |
+| `swap-list.pdf` | One-page checklist: a box to tick, the reason and a clickable Amazon product for each swap that needs one |
 
 ## Editing
 
