@@ -44,18 +44,18 @@ for name, (src, fx, fy) in HEROES.items():
         im.resize((w, round(w / 1.5)), Image.LANCZOS).save(f"images/{name}-{w}.webp", quality=74, method=6)
     print("wrote", name)
 
-# Home hero banner (Unsplash YGcleYb9wEQ, Hillshire Farm): a mom and two kids in
-# a sunny kitchen. Both crops stop above the counter so the plastic ham tub and
-# the sandwich stay out of frame.
-src = Image.open("images/originals/YGcleYb9wEQ.jpg")
+# Home hero (Unsplash CI_VD_iFgts): a mom slicing tomatoes on a wooden board
+# while her daughter laughs. Laptops show it beside a green text panel, so the
+# crop keeps both of them; phones use a 4:3 crop above the text.
+src = Image.open("images/originals/CI_VD_iFgts.jpg")
 W, H = src.size
-wide = grade(src.crop((0, 0, W, W // 2)))                      # 2:1, desktop
-tall = grade(src.crop((int(W * 0.42), int(H * 0.1), W, int(H * 0.1) + int((W - int(W * 0.42)) * 3 / 4))))  # 4:3, phones
-for w in (1000, 1600, 2400):
-    wide.resize((w, w // 2), Image.LANCZOS).save(f"images/banner-{w}.webp", quality=72, method=6)
+wide = grade(src.crop((int(W * 0.22), 0, W, H)))
+tall = grade(src.crop((int(W * 0.25), 0, W, H)))
+for w in (900, 1300, 1800):
+    wide.resize((w, round(w * wide.height / wide.width)), Image.LANCZOS).save(f"images/banner-{w}.webp", quality=74, method=6)
 for w in (600, 900):
-    tall.resize((w, w * 3 // 4), Image.LANCZOS).save(f"images/banner-m-{w}.webp", quality=72, method=6)
-print("wrote banner")
+    tall.resize((w, round(w * tall.height / tall.width)), Image.LANCZOS).save(f"images/banner-m-{w}.webp", quality=74, method=6)
+print("wrote banner", wide.size, tall.size)
 
 # Section photos (4:3) and card photos (4:3, smaller). name: (file, focus x, focus y, box)
 # box (fractions of the original) is cropped first when set.

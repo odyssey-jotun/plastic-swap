@@ -143,10 +143,10 @@ def portrait(name, alt, eager=False):
 
 
 # Home hero banner: a wide 2:1 crop for laptops and a 4:3 crop for phones.
-BANNER_D = ", ".join(f"images/banner-{w}.webp {w}w" for w in (1000, 1600, 2400))
+BANNER_D = ", ".join(f"images/banner-{w}.webp {w}w" for w in (900, 1300, 1800))
 BANNER_M = ", ".join(f"images/banner-m-{w}.webp {w}w" for w in (600, 900))
 BANNER_PRE = (f'<link rel="preload" as="image" type="image/webp" href="images/banner-m-900.webp" imagesrcset="{BANNER_M}" imagesizes="100vw" media="(max-width: 860px)" fetchpriority="high">\n'
-              f'<link rel="preload" as="image" type="image/webp" href="images/banner-1600.webp" imagesrcset="{BANNER_D}" imagesizes="100vw" media="(min-width: 861px)" fetchpriority="high">\n')
+              f'<link rel="preload" as="image" type="image/webp" href="images/banner-1300.webp" imagesrcset="{BANNER_D}" imagesizes="58vw" media="(min-width: 861px)" fetchpriority="high">\n')
 
 
 def hero_img(name, alt):
@@ -356,8 +356,6 @@ def statlist(items):
 
 
 def swap_card(s, room=""):
-    fam = (f'\n          <p class="more"><a href="family-swaps.html#{s["family"]}">How my family made this swap</a></p>'
-           if s.get("family") else "")
     return f"""      <article class="swap" id="{s['id']}">
         <figure class="card-photo">{card_img(s['photo'], s['alt'])}</figure>
         <div class="swap-body">
@@ -366,7 +364,7 @@ def swap_card(s, room=""):
           <h3>{s['name']}</h3>
           <p class="to">{s['to']}</p>
           <p>{s['text']}</p>
-          <p class="source">{ICONS['flask-conical']}<span>Source: {s['source']}</span></p>{fam}
+          <p class="source">{ICONS['flask-conical']}<span>Source: {s['source']}</span></p>
         </div>
       </article>"""
 
@@ -404,10 +402,10 @@ def index():
     return head(t, d, "", schema, BANNER_PRE) + nav("index.html") + f"""
 <main id="main">
 
-<header class="banner">
+<header class="banner hero-split">
   <picture>
     <source media="(max-width: 860px)" srcset="{BANNER_M}" sizes="100vw">
-    <img src="images/banner-1600.webp" srcset="{BANNER_D}" sizes="100vw" width="1600" height="800" alt="A mother laughing with her two young children as they snack on vegetables in a sunny kitchen" fetchpriority="high" decoding="async">
+    <img src="images/banner-1300.webp" srcset="{BANNER_D}" sizes="58vw" width="1300" height="938" alt="A mother slicing tomatoes on a wooden cutting board while her daughter laughs at the kitchen table" fetchpriority="high" decoding="async">
   </picture>
   <div class="wrap">
     <div class="banner-text">
@@ -441,7 +439,7 @@ def index():
       <h2>My family started swapping in 2024</h2>
       <p>I'm John Griffin, a junior at Episcopal Collegiate School in Little Rock. A couple of years ago, I didn't know much about microplastics either. Too many people still don't. That changed in 2024, when I started watching health experts and doctors explain the research.</p>
       <p>My dad did his own research and talked with doctors he knows, and they confirmed what I had learned. So we started swapping. Between August 2024 and September 2025, we replaced our plastic cutting board, spatula, food containers, dishwasher pods, toothbrushes and even underwear.</p>
-      <div class="btn-row"><a href="family-swaps.html" class="btn ghost">See what my family swapped</a></div>
+      <div class="btn-row"><a href="research.html" class="btn ghost">Read the research</a></div>
     </div>
   </div>
 </section>
@@ -546,8 +544,8 @@ def swaps():
   </div>
 </header>
 {"".join(rooms)}
-""" + cta("See what my family swapped", f"{WORDS[len(FAMILY)].capitalize()} of our own swaps, with what we bought and what we paid.",
-          "family-swaps.html", "Read our swaps", ("swap-list.pdf", "Download the PDF")) + sources(
+""" + cta("Keep the list in your kitchen", "Print the one-page PDF and check off each swap as you make it.",
+          "swap-list.pdf", "Download the PDF", ("research.html", "Read the research"), download=True) + sources(
         ["cr", "aap", "uw", "yadav", "hussain", "qian", "hernandez", "napper"],
         note="Photos: Unsplash.") + "\n</main>\n" + foot()
 

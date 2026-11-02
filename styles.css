@@ -409,3 +409,14 @@ footer ul a:hover{ color: var(--mint); }
   .swap-body > p{ font-size: 8.8pt; line-height: 1.35; }
   .swap .source{ font-size: 8pt; margin-top: 4pt; padding-top: 4pt; }
 }
+
+/* Home hero: green text panel beside the photo, so no shade covers a face. */
+@media (min-width: 861px){
+  .hero-split{ display: grid; grid-template-columns: 0.42fr 0.58fr; align-items: stretch; min-height: min(640px, 76vh); }
+  .hero-split::before{ display: none; }
+  .hero-split picture{ position: relative; grid-column: 2; grid-row: 1; inset: auto; }
+  .hero-split picture img{ position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 78% 40%; }
+  .hero-split .wrap{ grid-column: 1; grid-row: 1; display: flex; align-items: center; justify-content: center; padding: 56px 28px; max-width: none; margin: 0; }
+  .hero-split .banner-text{ max-width: 540px; }
+  .hero-split h1{ font-size: clamp(2rem, 3.3vw, 3.1rem); }
+}
