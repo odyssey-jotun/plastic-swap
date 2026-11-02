@@ -1,4 +1,4 @@
-// Prints swaps.html to swap-list.pdf (the "Download the PDF" file).
+// Prints checklist.html to swap-list.pdf (the "Download the PDF" file).
 // Needs Playwright. On Marc's Mac:
 //   python3 -m http.server 8790 &   (from the repo root)
 //   NODE_PATH=~/odyssey/node_modules node tools/pdf.cjs
@@ -7,7 +7,7 @@ const { chromium } = require("playwright");
 (async () => {
   const browser = await chromium.launch();
   const page = await browser.newPage();
-  await page.goto("http://localhost:8790/swaps.html", { waitUntil: "networkidle" });
+  await page.goto("http://localhost:8790/checklist.html", { waitUntil: "networkidle" });
   await page.pdf({ path: "swap-list.pdf", format: "Letter", printBackground: true, preferCSSPageSize: true });
   await browser.close();
   console.log("wrote swap-list.pdf");

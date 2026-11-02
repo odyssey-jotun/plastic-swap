@@ -67,6 +67,8 @@ SECTION = {
     "doctor-office": ("r-doctor-office", 0.5, 0.5, None),
     "doctor-patient": ("r-doctor", 0.5, 0.5, None),
     "grocery-aisle": ("p-aisle", 0.5, 0.5, None),
+    "room-closet": ("cloth-apparel", 0.5, 0.5, None),
+    "room-house": ("vacuum-woman", 0.5, 0.5, None),
 }
 CARDS = {
     "swap-board": ("board-tomato", 0.5, 0.5, None),

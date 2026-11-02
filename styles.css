@@ -422,3 +422,35 @@ footer ul a:hover{ color: var(--mint); }
 }
 
 .points + p{ margin-top: 28px; }
+
+/* ---------------- what to buy, on each swap card ---------------- */
+.buy{ display: flex; flex-direction: column; align-items: stretch; gap: 10px; margin-top: 14px; padding: 14px; background: var(--bg-alt); border-radius: 12px; }
+.buy .btn{ width: 100%; }
+@media screen{
+  .swap{ display: flex; flex-direction: column; }
+  .swap-body{ flex: 1; display: flex; flex-direction: column; }
+  .swap-body > .source{ margin-top: auto; }
+  .swap-body > p:nth-last-of-type(2){ margin-bottom: 16px; }
+}
+.buy + .buy{ margin-top: 8px; }
+.buy p{ display: grid; grid-template-columns: 18px 1fr; gap: 8px; align-items: start; margin: 0; font-weight: 700; font-size: 0.95rem; color: var(--ink); }
+.buy p svg{ width: 18px; height: 18px; margin-top: 2px; color: var(--primary); }
+.btn.small{ padding: 10px 14px; min-height: 44px; font-size: 0.92rem; }
+.band .buy{ background: var(--bg-alt); }
+.band .swap .buy{ background: #EEF5F2; }
+
+/* ---------------- rooms with one swap: photo beside the card ---------------- */
+@media screen{
+  .solo .section-head{ text-align: left; margin-bottom: 20px; }
+  .solo .swaps{ display: block; }
+  .solo .swap .card-photo{ display: none; }
+  .solo .swap-body{ padding-top: 24px; }
+  .solo .swap .icon{ margin: 0 0 14px; box-shadow: none; }
+  .solo .swap h3, .solo .swap .to{ text-align: left; }
+  .solo .split{ align-items: center; }
+}
+@media print{
+  .solo .split, .solo .split > div{ display: contents; }
+  .solo .photo{ display: none !important; }
+  .buy{ display: none; }
+}

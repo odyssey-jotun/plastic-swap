@@ -69,13 +69,13 @@ ROOMS = [
          "text": "In a 2019 study, one plastic tea bag steeped at brewing temperature released about 11.6 billion microplastic particles into a single cup. Loose-leaf tea in a steel strainer skips the bag.",
          "source": "Hernandez et al., 2019"},
     ]},
-    {"id": "closet", "name": "Closet", "intro": "Polyester is in a lot of everyday clothes.", "swaps": [
+    {"id": "closet", "name": "Closet", "intro": "Polyester is in a lot of everyday clothes.", "photo": "room-closet", "photo_left": True, "swaps": [
         {"id": "clothes", "icon": "shirt", "photo": "swap-cotton", "alt": "A person folding a stack of clean clothes on the floor",
          "name": "Clothes and underwear", "to": "Polyester and nylon to cotton, linen or wool",
          "text": "Polyester and nylon are plastics, and they shed fibers in the wash. One load of polyester clothes can shed about 496,030 fibers. Cotton, linen and wool are natural fibers.",
          "source": "Napper and Thompson, 2016", "family": "underwear"},
     ]},
-    {"id": "home", "name": "Around the house", "intro": "Microplastics settle into household dust.", "swaps": [
+    {"id": "home", "name": "Around the house", "intro": "Microplastics settle into household dust.", "photo": "room-house", "photo_left": False, "swaps": [
         {"id": "dust", "icon": "wind", "photo": "swap-dust", "alt": "A woman vacuuming a bright living room",
          "name": "Dust", "to": "Letting it build up to vacuuming often",
          "text": "Dr. Sheela Sathyanarayana, a pediatrician and environmental epidemiologist at UW Medicine, recommends removing dust and vacuuming often to cut exposure at home.",
@@ -83,6 +83,34 @@ ROOMS = [
     ]},
 ]
 ALL_SWAPS = [s for r in ROOMS for s in r["swaps"]]
+
+# What to buy for each swap: (product, Amazon ASIN). Links checked 2026-11-02.
+BUY = {
+    "cutting-board": [("Allsum extra thick bamboo cutting board", "B095W712VM")],
+    "utensils": [("Zulay Kitchen 6-piece teak utensil set", "B085W92DL4")],
+    "food-storage": [("Rubbermaid Brilliance glass containers, set of 9", "B08BR9HBZ3")],
+    "reheating": [("Pyrex 2-quart glass baking dish", "B00FN3M59S")],
+    "water": [("Klean Kanteen 27 oz stainless steel bottle", "B0DK9NS2WR")],
+    "tea": [("Ohtomber stainless steel tea infuser", "B0CFQW79K8")],
+    "clothes": [("Amazon Essentials men's cotton boxer briefs", "B0FW47NTD3"),
+                ("Amazon Essentials women's cotton briefs", "B0BGGWKLMK")],
+    "dust": [("Shark Navigator Lift-Away vacuum with HEPA filter", "B004Q4DRJW")],
+}
+# The one-line reason on the printed checklist.
+WHY = {
+    "cutting-board": "A plastic board can shed about 79 million particles a year.",
+    "utensils": "Plastic tools wear down against hot pans.",
+    "food-storage": "Heat can leak BPA and phthalates into food. Heat it with the lid off.",
+    "reheating": "Microwaving plastic released up to 4 million particles per square centimeter.",
+    "water": "A liter of bottled water held about 240,000 plastic particles.",
+    "tea": "One plastic tea bag released about 11.6 billion particles into a cup.",
+    "clothes": "One load of polyester laundry can shed about 496,000 fibers.",
+    "dust": "Microplastics settle into dust. Vacuum often.",
+}
+
+
+def amazon(asin):
+    return f"https://www.amazon.com/dp/{asin}"
 WORDS = {1: "one", 2: "two", 3: "three", 4: "four", 5: "five", 6: "six", 7: "seven", 8: "eight", 9: "nine", 10: "ten"}
 N = WORDS.get(len(ALL_SWAPS), str(len(ALL_SWAPS)))
 
@@ -356,6 +384,10 @@ def statlist(items):
 
 
 def swap_card(s, room=""):
+    buy = "\n".join(f'''          <div class="buy">
+            <p>{ICONS['shopping-cart']}<span>{name}</span></p>
+            <a class="btn small" href="{amazon(asin)}" target="_blank" rel="noopener nofollow">View on Amazon</a>
+          </div>''' for name, asin in BUY[s['id']])
     return f"""      <article class="swap" id="{s['id']}">
         <figure class="card-photo">{card_img(s['photo'], s['alt'])}</figure>
         <div class="swap-body">
@@ -365,6 +397,7 @@ def swap_card(s, room=""):
           <p class="to">{s['to']}</p>
           <p>{s['text']}</p>
           <p class="source">{ICONS['flask-conical']}<span>Source: {s['source']}</span></p>
+{buy}
         </div>
       </article>"""
 
@@ -518,6 +551,26 @@ def swaps():
     for i, r in enumerate(ROOMS):
         band = " band" if i % 2 == 0 else ""
         cards = "\n".join(swap_card(s, r["name"]) for s in r["swaps"])
+        if len(r["swaps"]) == 1:
+            sw = r["swaps"][0]
+            pic = photo(r["photo"], sw["alt"])
+            text = f"""    <div>
+      <div class="section-head">
+        <h2>{r['name']}</h2>
+        <p>{r['intro']}</p>
+      </div>
+      <div class="swaps">
+{cards}
+      </div>
+    </div>"""
+            body = f"    {pic}\n{text}" if r["photo_left"] else f"{text}\n    {pic}"
+            rooms.append(f"""
+<section class="room solo{band}" id="{r['id']}">
+  <div class="wrap split{' flip' if r['photo_left'] else ''}">
+{body}
+  </div>
+</section>""")
+            continue
         rooms.append(f"""
 <section class="room{band}" id="{r['id']}">
   <div class="wrap">
@@ -716,13 +769,85 @@ def family():
           "swaps.html", "Download the Free Swap List", ("research.html", "Read the research")) + credits(
         "Photo: Unsplash.") + "\n</main>\n" + foot()
 
+# ---------------------------------------------------------------- printable checklist
+# Printed to swap-list.pdf by tools/pdf.cjs. Not linked from the site.
+CHECKLIST_CSS = """
+@font-face{ font-family:'Public Sans'; font-weight:400 800; src:url(fonts/public-sans.woff2) format('woff2'); }
+@page{ size: letter; margin: 0; }
+*{ box-sizing: border-box; }
+body{ margin: 0; font-family: 'Public Sans', sans-serif; color: #0F1D1A; font-size: 9.6pt; line-height: 1.35;
+  -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+.sheet{ width: 8.5in; height: 11in; display: flex; flex-direction: column; }
+.top{ background: #12302A; color: #EEF5F2; padding: 0.42in 0.55in 0.34in; }
+.mark{ display: flex; align-items: center; gap: 8px; font-weight: 800; font-size: 11pt; margin: 0 0 12pt; }
+.mark svg{ width: 22px; height: 22px; }
+.mark span{ color: #9ED6C4; }
+h1{ font-size: 25pt; line-height: 1.1; margin: 0 0 5pt; letter-spacing: -0.01em; }
+.top p{ margin: 0; font-size: 10.5pt; color: #B8CEC7; }
+.body{ padding: 0.22in 0.55in 0; flex: 1; }
+h2{ font-size: 12pt; margin: 13pt 0 5pt; color: #1C4C42; }
+.row{ display: grid; grid-template-columns: 16pt 0.78in 1.55in 1fr 1.9in; gap: 10pt; align-items: center;
+  padding: 7pt 0; border-top: 1px solid #D5E3DE; }
+.row:last-child{ border-bottom: 1px solid #D5E3DE; }
+.box{ width: 14pt; height: 14pt; border: 1.6px solid #1C4C42; border-radius: 3pt; }
+.row img{ width: 0.78in; height: 0.56in; object-fit: cover; border-radius: 6pt; display: block; }
+.swap b{ display: block; font-size: 10.5pt; }
+.swap span{ color: #1C4C42; font-weight: 700; font-size: 8.8pt; }
+.why{ color: #43524E; }
+.buy a{ display: block; color: #2A62A0; font-weight: 700; text-decoration: underline; text-underline-offset: 2px; }
+.buy a + a{ margin-top: 3pt; }
+.buy small{ display: block; color: #43524E; font-size: 7.8pt; margin-top: 1pt; }
+.foot{ padding: 8pt 0.55in 0.36in; font-size: 7.6pt; color: #43524E; }
+.foot b{ color: #1C4C42; }
+"""
+
+
+def checklist():
+    rooms = []
+    for r in ROOMS:
+        rows = []
+        for sw in r["swaps"]:
+            links = "".join(f'<a href="{amazon(a)}">{n}</a>' for n, a in BUY[sw["id"]])
+            rows.append(f"""    <div class="row">
+      <div class="box"></div>
+      <img src="images/{sw['photo']}-480.webp" alt="">
+      <div class="swap"><b>{sw['name']}</b><span>{sw['to']}</span></div>
+      <div class="why">{WHY[sw['id']]}</div>
+      <div class="buy">{links}<small>on Amazon</small></div>
+    </div>""")
+        rooms.append(f'  <h2>{r["name"]}</h2>\n' + "\n".join(rows))
+    return f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Plastic Swap Checklist | {SITE_NAME}</title>
+<meta name="robots" content="noindex,nofollow">
+<style>{CHECKLIST_CSS}</style>
+</head>
+<body>
+<div class="sheet">
+<div class="top">
+  <p class="mark"><svg viewBox="0 0 32 32" aria-hidden="true">{JAR}</svg><span>{SITE_NAME}</span></p>
+  <h1>Your plastic swap checklist</h1>
+  <p>{N.capitalize()} swaps that cut the plastic in your home. Check each one off as you make it, and tap a product to open it on Amazon.</p>
+</div>
+<div class="body">
+{chr(10).join(rooms)}
+</div>
+<p class="foot"><b>Sources:</b> Consumer Reports, 2024 and 2025; American Academy of Pediatrics, 2018; UW Medicine; Yadav et al., 2023; Hussain et al., 2023; Qian et al., 2024; Hernandez et al., 2019; Napper and Thompson, 2016. Full list and research at <b>odyssey-jotun.github.io/plastic-swap</b></p>
+</div>
+</body>
+</html>
+"""
+
+
 def sitemap():
     urls = "\n".join(f"  <url><loc>{SITE}{'' if h == 'index.html' else h}</loc><lastmod>{TODAY}</lastmod></url>" for h, _ in PAGES)
     return f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n{urls}\n</urlset>\n'
 
 
 if __name__ == "__main__":
-    for name, fn in {"index.html": index, "swaps.html": swaps, "research.html": research, "family-swaps.html": family}.items():
+    for name, fn in {"index.html": index, "swaps.html": swaps, "research.html": research, "family-swaps.html": family, "checklist.html": checklist}.items():
         with open(name, "w") as f:
             f.write(fn())
         print("wrote", name)

@@ -18,7 +18,8 @@ GitHub Pages serves `main` at root. The preview is kept out of search (`noindex`
 | `swaps.html` | The swap list: eight swaps, room by room, each with its source |
 | `family-swaps.html` | Blog post: the six swaps my family made, from our order history, with prices and dates |
 | `research.html` | What studies have found about microplastics in the body, the chemicals in plastic, and where plastic enters a home |
-| `swap-list.pdf` | The same list on one printable page (the "Download the PDF" button) |
+| `checklist.html` | The printable checklist, not linked from the site; `tools/pdf.cjs` prints it to `swap-list.pdf` |
+| `swap-list.pdf` | One-page checklist: a box to tick, the reason and a clickable Amazon product for each swap |
 
 ## Editing
 
@@ -29,14 +30,14 @@ Pages, `sitemap.xml`, `robots.txt` and `favicon.svg` are generated. Change copy 
     python3 -m http.server 8790 &        # then, for the PDF:
     NODE_PATH=~/odyssey/node_modules node tools/pdf.cjs
 
-- The swap list: `ROOMS` in `build.py`. Every swap needs a `source`.
+- The swap list: `ROOMS` in `build.py`. Every swap needs a `source`, a `BUY` product (Amazon ASIN) and a one-line `WHY` for the checklist.
 - My family's swaps (blog post): `FAMILY` in `build.py`, from our order history; "paid" is the price at the time, before tax.
 - Styles: `styles.css`, minified and inlined by the build. The `@media print` block lays out the PDF.
 - Photos: `python3 tools/photos.py` crops and grades the originals in `images/originals/` (gitignored).
 
 ## Rules this site follows
 
-- Every figure is cited in plain text. The site has zero external links.
+- Every figure is cited in plain text. The only external links are the Amazon product links.
 - No em dashes, no small uppercase labels above headings, no bold phrases inside sentences.
 
 ## Photos
