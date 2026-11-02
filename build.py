@@ -288,34 +288,78 @@ JAR = ('<rect width="32" height="32" rx="9" fill="#1C4C42"/>'
 MARK = f'<svg class="mark" viewBox="0 0 32 32" aria-hidden="true">{JAR}</svg>'
 
 
-def stat_card(icon, num, title, text, of, link=None):
-    more = f'\n        <p class="more"><a href="{link[0]}">{link[1]}</a></p>' if link else ""
-    return f"""      <div class="card">
-        <div class="icon">{ICONS[icon]}</div>
-        <p class="num">{num}</p>
-        <h3>{title}</h3>
-        <p>{text}</p>
-        <p class="of">{of}</p>{more}
-      </div>"""
+def card_img(name, alt):
+    return (f'<img src="images/{name}-720.webp" srcset="{srcset(name, (480, 720))}" '
+            f'sizes="(max-width: 620px) calc(100vw - 40px), (max-width: 860px) 45vw, 340px" width="720" height="540" alt="{alt}" loading="lazy" decoding="async">')
+
+
+def wide_banner(name, alt, eager=False):
+    d = ", ".join(f"images/{name}-{w}.webp {w}w" for w in (1000, 1600, 2400))
+    m = ", ".join(f"images/{name}-m-{w}.webp {w}w" for w in (600, 900))
+    load = 'fetchpriority="high"' if eager else 'loading="lazy"'
+    return (f'<picture><source media="(max-width: 860px)" srcset="{m}" sizes="100vw">'
+            f'<img src="images/{name}-1600.webp" srcset="{d}" sizes="100vw" width="1600" height="800" alt="{alt}" {load} decoding="async"></picture>')
+
+
+# One real photo per swap, shown on the swap cards.
+SWAP_PHOTOS = {
+    "cutting-board": ("swap-board", "A bamboo cutting board with sliced tomatoes and a steel knife"),
+    "spatula": ("swap-utensils", "Stainless steel slotted spatulas hanging on a rack"),
+    "food-storage": ("swap-glass", "Hands placing a glass jar of granola with a bamboo lid on a pantry shelf"),
+    "dishwasher": ("swap-dishwasher", "A woman loading dishes into a dishwasher in her kitchen"),
+    "toothbrush": ("swap-toothbrush", "Bamboo toothbrushes in a glass jar beside a sprig of eucalyptus"),
+    "underwear": ("swap-cotton", "A person folding a stack of clean clothes on the floor"),
+}
+
+
+def points(items):
+    return "\n".join(f"""        <li>
+          <div class="icon">{ICONS[i]}</div>
+          <div><h3>{h}</h3><p>{t}</p></div>
+        </li>""" for i, h, t in items)
+
+
+def statlist(items):
+    return "\n".join(f"""        <li><p class="n">{n}</p><div><h3>{h}</h3><p>{t}</p></div></li>""" for n, h, t in items)
 
 
 def swap_card(s, room=""):
+    img, alt = SWAP_PHOTOS[s["id"]]
     return f"""      <article class="swap" id="{s['id']}">
-        <p class="room-tag">{room}</p>
-        <div class="icon">{ICONS[s['icon']]}</div>
-        <h3>{s['name']}</h3>
-        <p class="to">{s['to']}</p>
-        <p>{s['text']}</p>
-        <ul class="facts-list">
-          <li>{ICONS['shopping-cart']}<span><b>What we bought</b> {s['bought']}</span></li>
-          <li>{ICONS['tag']}<span><b>What we paid</b> {s['paid']}</span></li>
-          <li>{ICONS['calendar']}<span><b>When</b> {s['when']}</span></li>
-        </ul>
+        <figure class="card-photo">{card_img(img, alt)}</figure>
+        <div class="swap-body">
+          <p class="room-tag">{room}</p>
+          <div class="icon">{ICONS[s['icon']]}</div>
+          <h3>{s['name']}</h3>
+          <p class="to">{s['to']}</p>
+          <p>{s['text']}</p>
+          <ul class="facts-list">
+            <li>{ICONS['shopping-cart']}<span><b>What we bought</b> {s['bought']}</span></li>
+            <li>{ICONS['tag']}<span><b>What we paid</b> {s['paid']}</span></li>
+            <li>{ICONS['calendar']}<span><b>When</b> {s['when']}</span></li>
+          </ul>
+        </div>
       </article>"""
 
 
 def outcomes(items, mark):
     return "\n".join(f"          <li>{ICONS[mark]}<span>{t}</span></li>" for t in items)
+
+
+def closing_banner(heading, text, href, label, second=None):
+    extra = f'<a href="{second[0]}" class="btn ghost-light">{second[1]}</a>' if second else ""
+    return f"""
+<section class="banner closing-banner">
+  {wide_banner("closing", "A family laughing over breakfast as a father pours juice at a bright kitchen table")}
+  <div class="wrap">
+    <div class="banner-text">
+      <h2>{heading}</h2>
+      <p>{text}</p>
+      <div class="btn-row"><a href="{href}" class="btn light">{label}</a>{extra}</div>
+    </div>
+  </div>
+</section>
+"""
 
 
 # ---------------------------------------------------------------- home
@@ -324,10 +368,9 @@ def index():
     d = ("A free list of the everyday plastic swaps my family made, from glass food storage "
          "to cotton clothes, with what each one cost and the research behind them.")
     schema = [page_schema("WebPage", "", t, d, {"about": "Reducing microplastic exposure at home"})]
-    preview = "\n".join(f"""      <a class="card" href="swaps.html#{s['id']}">
-        <div class="icon">{ICONS[s['icon']]}</div>
-        <h3>{s['name']}</h3>
-        <p class="to">{s['to']}</p>
+    preview = "\n".join(f"""      <a class="pcard" href="swaps.html#{s['id']}">
+        <figure class="card-photo">{card_img(*SWAP_PHOTOS[s['id']])}</figure>
+        <div class="pcard-body"><h3>{s['name']}</h3><p class="to">{s['to']}</p></div>
       </a>""" for s in ALL_SWAPS)
     return head(t, d, "", schema, BANNER_PRE) + nav("index.html") + f"""
 <main id="main">
@@ -348,21 +391,16 @@ def index():
 </header>
 
 <section id="problem" class="band">
-  <div class="wrap">
-    <div class="section-head center">
+  <div class="wrap split flip">
+    {photo("shopper", "A shopper carrying a green basket past shelves of fruit packed in plastic")}
+    <div>
       <h2>Plastic is harder to avoid than it looks</h2>
-      <p>It shows up in the food, clothes and cleaning products people use every day, and now it shows up inside people too.</p>
-    </div>
-    <div class="cards">
-{stat_card("droplet", "77%", "Plastic is already in people's blood",
-           "In a 2022 study, scientists found plastic particles in the blood of 17 of 22 healthy adults. It has also turned up in placentas, artery plaque and brain tissue.",
-           "of healthy adults tested had plastic in their blood")}
-{stat_card("search", "57%", "Good swaps are hard to find",
-           "Cheaper synthetic materials replaced natural ones in clothes, kitchens and cleaning products. People who want to cut back can't find alternatives, or the ones they find cost too much.",
-           "of all the fiber made in the world in 2023 was polyester")}
-{stat_card("heart-pulse", "4.5&times;", "No one should have to choose between their health and saving money",
-           "In a 2024 study, patients with plastic in their artery plaque were about four and a half times as likely to have a heart attack or stroke, or to die, within three years.",
-           "the risk for patients with plastic in their artery plaque")}
+      <p class="lead">It shows up in the food, clothes and cleaning products people use every day, and now it shows up inside people too.</p>
+      <ul class="points">
+{points([("droplet", "Plastic is already in people's blood", "In a 2022 study, scientists found plastic particles in the blood of 17 of 22 healthy adults."),
+         ("search", "Good swaps are hard to find", "Polyester made up 57% of all the fiber produced in 2023, and the alternatives people do find often cost too much."),
+         ("heart-pulse", "No one should have to choose between their health and saving money", "Patients with plastic in their artery plaque were about four and a half times as likely to have a heart attack or stroke, or to die, within three years.")])}
+      </ul>
     </div>
   </div>
 </section>
@@ -380,29 +418,17 @@ def index():
 </section>
 
 <section id="plan" class="band">
-  <div class="wrap">
-    <div class="section-head center">
+  <div class="wrap split">
+    <div>
       <h2>Cut the plastic in your home in three steps</h2>
-      <p>Start with the swaps my family has already made.</p>
+      <ol class="steps-list">
+        <li><div><h3>Download the free swap list</h3><p>{N.capitalize()} swaps, room by room, with what each one replaces and what we paid.</p></div></li>
+        <li><div><h3>Make the swaps that fit your budget</h3><p>Start with the cheap ones. A bamboo cutting board cost us about $15.</p></div></li>
+        <li><div><h3>Tell me what worked</h3><p>Let me know which swaps were easiest for your family, so the list keeps improving.</p></div></li>
+      </ol>
+      <div class="btn-row"><a href="swaps.html" class="btn">Download the Free Swap List</a></div>
     </div>
-    <ol class="steps">
-      <li>
-        <h3>Download the free swap list</h3>
-        <p>{N.capitalize()} swaps, room by room, with what each one replaces and what we paid.</p>
-      </li>
-      <li>
-        <h3>Make the swaps that fit your budget</h3>
-        <p>Start with the cheap ones. A bamboo cutting board cost us about $15.</p>
-      </li>
-      <li>
-        <h3>Tell me what worked</h3>
-        <p>Let me know which swaps were easiest for your family, so the list keeps improving.</p>
-      </li>
-    </ol>
-    <p class="punch">If you replace the products on this list, you'll be exposed to fewer microplastics day to day.</p>
-    <div class="btn-row">
-      <a href="swaps.html" class="btn">Download the Free Swap List</a>
-    </div>
+    {photo("family-kitchen", "A grandfather and two grandchildren preparing food together at a wooden cutting board in a sunny kitchen")}
   </div>
 </section>
 
@@ -410,9 +436,9 @@ def index():
   <div class="wrap">
     <div class="section-head center">
       <h2>{N.capitalize()} swaps my family made</h2>
-      <p>From the kitchen to the closet.</p>
+      <p>If you replace the products on this list, you'll be exposed to fewer microplastics day to day.</p>
     </div>
-    <div class="cards preview">
+    <div class="pcards">
 {preview}
     </div>
   </div>
@@ -423,31 +449,34 @@ def index():
     <div class="section-head center">
       <h2>What changes when your home has less plastic</h2>
     </div>
-    <div class="stakes">
-      <div class="stake">
-        <h3>When nothing changes</h3>
-        <ul class="outcomes">
+    <div class="stakes-split">
+      {photo("family-dinner", "A family raising their glasses in a toast over dinner at home")}
+      <div class="stakes">
+        <div class="stake">
+          <h3>When nothing changes</h3>
+          <ul class="outcomes">
 {outcomes(["Chopping on a plastic board can shed tens of millions of plastic particles a year.",
            "Plastic containers heated in the microwave release millions of particles into food.",
            "A single load of polyester laundry can shed close to half a million fibers."], "x")}
-        </ul>
-      </div>
-      <div class="stake good">
-        <h3>When you make the swaps</h3>
-        <ul class="outcomes">
+          </ul>
+        </div>
+        <div class="stake good">
+          <h3>When you make the swaps</h3>
+          <ul class="outcomes">
 {outcomes(["Your food touches bamboo, glass and steel.",
            "You know which products to replace first.",
            "Each swap fits a normal family budget."], "check")}
-        </ul>
+          </ul>
+        </div>
       </div>
     </div>
     <p class="cite-line">Sources: Yadav et al., 2023; Hussain et al., 2023; Napper and Thompson, 2016.</p>
   </div>
 </section>
-""" + cta("Start with the free swap list", f"{N.capitalize()} swaps, each with the price we paid.",
-          "swaps.html", "Download the Free Swap List", ("research.html", "Read the research")) + sources(
+""" + closing_banner("Start with the free swap list", f"{N.capitalize()} swaps, each with the price we paid.",
+                     "swaps.html", "Download the Free Swap List", ("research.html", "Read the research")) + sources(
         ["leslie", "textile", "nejm", "yadav", "hussain", "napper"],
-        note="Photo: Unsplash (Hillshire Farm).") + "\n</main>\n" + foot()
+        note="Photos: Unsplash.") + "\n</main>\n" + foot()
 
 
 # ---------------------------------------------------------------- swap list
@@ -472,7 +501,7 @@ def swaps():
     </div>
   </div>
 </section>""")
-    return head(t, d, "swaps.html", schema, preload("hero-family-kitchen", HERO_W, PAGE_SIZES, 960)) + nav("swaps.html") + f"""
+    return head(t, d, "swaps.html", schema, preload("hero-couple-cooking", HERO_W, PAGE_SIZES, 960)) + nav("swaps.html") + f"""
 <main id="main">
 
 <header class="page-hero">
@@ -484,13 +513,13 @@ def swaps():
         <a href="swap-list.pdf" class="btn" download>Download the PDF</a>
       </div>
     </div>
-    {hero_img("hero-family-kitchen", "A grandfather and two grandchildren preparing food together at a wooden cutting board in a sunny kitchen")}
+    {hero_img("hero-couple-cooking", "A couple cooking together at the stove in a bright kitchen")}
   </div>
 </header>
 {"".join(rooms)}
 """ + cta("Start with the $15 swap", "A bamboo cutting board cost us $14.97, and it works like any other board.",
           "swap-list.pdf", "Download the PDF", ("research.html", "Read the research"), download=True) + credits(
-        "Photo: Unsplash (Land O'Lakes, Inc.).") + "\n</main>\n" + foot()
+        "Photos: Unsplash.") + "\n</main>\n" + foot()
 
 
 # ---------------------------------------------------------------- research
@@ -499,6 +528,14 @@ def bars(rows):
     for label, val, cls in rows:
         out.append(f"""        <div class="barline"><span>{label}</span><div class="track"><span class="bar {cls}" style="width:{val / 25 * 100:.0f}%">{val:g}%</span></div></div>""")
     return "\n".join(out)
+
+
+def source_card(img, alt, num, title, text, link=None):
+    more = f'<p class="more"><a href="{link[0]}">{link[1]}</a></p>' if link else ""
+    return f"""      <div class="pcard">
+        <figure class="card-photo">{card_img(img, alt)}</figure>
+        <div class="pcard-body"><p class="num">{num}</p><h3>{title}</h3><p>{text}</p>{more}</div>
+      </div>"""
 
 
 def research():
@@ -520,53 +557,49 @@ def research():
 </header>
 
 <section id="inside" class="band">
-  <div class="wrap">
-    <div class="section-head center">
+  <div class="wrap split flip">
+    {photo("blood-tubes", "A gloved hand placing a tube of blood into a rack of samples in a lab")}
+    <div>
       <h2>Plastic is already inside people</h2>
-      <p>Scientists have now found microplastics in human blood, placentas, arteries and brains.</p>
+      <p class="lead">Scientists have now found microplastics in human blood, placentas, arteries and brains.</p>
+      <ul class="statlist">
+{statlist([("77%", "In the blood", "Scientists found plastic particles in the blood of 17 of 22 healthy adults. PET, the plastic in water bottles, was one of the plastics found."),
+           ("4 of 6", "In the placenta", "Researchers found microplastic fragments in four of six placentas, on the side facing the mother and the side facing the baby."),
+           ("58%", "In artery plaque", "Of 257 patients who had plaque removed from a neck artery, 150 had polyethylene in it, the plastic used in bags and food wrap."),
+           ("+50%", "In the brain", "Brain samples from 2024 held about 50% more microplastic than samples from 2016.")])}
+      </ul>
+      <p class="cite-line">Sources: Leslie et al., 2022; Ragusa et al., 2021; Marfella et al., 2024; Nihart et al., 2025.</p>
     </div>
-    <div class="cards four">
-{stat_card("droplet", "77%", "In the blood",
-           "In a 2022 study, scientists found plastic particles in the blood of 17 of 22 healthy adults. PET, the plastic in water bottles, was one of the plastics found.",
-           "of healthy adults tested had plastic in their blood")}
-{stat_card("baby", "4 of 6", "In the placenta",
-           "Italian researchers found microplastic fragments in four of six placentas, on the side facing the mother and the side facing the baby.",
-           "placentas tested held microplastic")}
-{stat_card("heart-pulse", "58%", "In artery plaque",
-           "Of 257 patients who had plaque removed from a neck artery, 150 had polyethylene in it, the plastic used in bags and food wrap.",
-           "of patients had plastic in their artery plaque")}
-{stat_card("brain", "+50%", "In the brain",
-           "Brain samples from 2024 held about 50% more microplastic than samples from 2016, and brain tissue held more than liver or kidney tissue.",
-           "more microplastic in brain samples from 2024 than from 2016")}
-    </div>
-    <p class="cite-line center">Sources: Leslie et al., 2022; Ragusa et al., 2021; Marfella et al., 2024; Nihart et al., 2025.</p>
   </div>
 </section>
 
 <section id="heart">
   <div class="wrap split">
-    <figure class="chart">
-      <h3>Heart attack, stroke or death within about three years</h3>
-      <p class="sub">Patients who had plaque removed from a neck artery, by whether the plaque held plastic.</p>
-      <div class="bars">
-{bars([("Plastic in plaque", 20.0, "hi"), ("No plastic found", 7.5, "lo")])}
-      </div>
-      <p class="cite-line">Source: Marfella et al., New England Journal of Medicine, 2024.</p>
-    </figure>
     <div>
       <h2>Plastic in the arteries and heart risk</h2>
       <p>Doctors in Italy followed 257 patients for nearly three years after surgery to clear a neck artery. Of the patients with plastic in their plaque, 20% had a heart attack or stroke or died. Of the patients without it, 7.5% did.</p>
       <p>After accounting for other risks, the researchers put the risk at about four and a half times as high. The study found a link and could not prove that the plastic caused the harm.</p>
+      <figure class="chart">
+        <h3>Heart attack, stroke or death within about three years</h3>
+        <div class="bars">
+{bars([("Plastic in plaque", 20.0, "hi"), ("No plastic found", 7.5, "lo")])}
+        </div>
+        <p class="cite-line">Source: Marfella et al., New England Journal of Medicine, 2024.</p>
+      </figure>
     </div>
+    {photo("doctor-office", "A doctor in a white coat talking with a patient across his desk")}
   </div>
 </section>
 
 <section id="chemicals" class="band">
-  <div class="wrap prose">
-    <h2>The chemicals in plastic</h2>
-    <p>Plastic carries chemicals too. DEHP is a phthalate added to make plastic soft, and it is used in vinyl, food packaging and medical tubing.</p>
-    <p>A 2025 study estimated that DEHP exposure was linked to 356,238 deaths from heart disease worldwide in 2018 among adults 55 to 64. That is 13.5% of all heart disease deaths in that age group. The authors note their study was not designed to prove that DEHP alone caused those deaths.</p>
-    <p class="cite-line">Source: Hyman et al., eBioMedicine, 2025.</p>
+  <div class="wrap split flip">
+    {photo("grocery-aisle", "A grocery store aisle lined with snacks in plastic packaging")}
+    <div>
+      <h2>The chemicals in plastic</h2>
+      <p>Plastic carries chemicals too. DEHP is a phthalate added to make plastic soft, and it is used in vinyl, food packaging and medical tubing.</p>
+      <p>A 2025 study estimated that DEHP exposure was linked to 356,238 deaths from heart disease worldwide in 2018 among adults 55 to 64. That is 13.5% of all heart disease deaths in that age group. The authors note their study was not designed to prove that DEHP alone caused those deaths.</p>
+      <p class="cite-line">Source: Hyman et al., eBioMedicine, 2025.</p>
+    </div>
   </div>
 </section>
 
@@ -576,34 +609,33 @@ def research():
       <h2>Where plastic enters a home</h2>
       <p>Four everyday sources, and the swap my family made for each one we could.</p>
     </div>
-    <div class="cards four">
-{stat_card("board", "79 million", "Cutting boards",
-           "Researchers estimated that a year of chopping on a polypropylene board can release about 79 million microplastic particles.",
-           "particles a year from one board", ("swaps.html#cutting-board", "My swap: bamboo"))}
-{stat_card("microwave", "4 million", "Heated containers",
-           "Three minutes in the microwave released as many as 4 million microplastic particles from each square centimeter of a plastic container, plus billions of smaller nanoplastics.",
-           "particles from one square centimeter of plastic", ("swaps.html#food-storage", "My swap: glass"))}
-{stat_card("glass-water", "240,000", "Bottled water",
-           "A 2024 study counted about 240,000 plastic particles in a liter of bottled water. Nine in ten were nanoplastics.",
-           "plastic particles in one liter")}
-{stat_card("washing-machine", "496,030", "Polyester laundry",
-           "One 6 kg load of polyester clothes can shed about 496,030 fibers in the wash.",
-           "fibers from one load", ("swaps.html#underwear", "My swap: cotton"))}
+    <div class="pcards four">
+{source_card("src-board", "A bamboo cutting board with sliced red pepper and a knife", "79 million", "Cutting boards",
+             "A year of chopping on a polypropylene board can release about 79 million microplastic particles.", ("swaps.html#cutting-board", "My swap: bamboo"))}
+{source_card("src-microwave", "A microwave and a dish rack on a wooden kitchen counter", "4 million", "Heated containers",
+             "Three minutes in the microwave released as many as 4 million microplastic particles from each square centimeter of a plastic container.", ("swaps.html#food-storage", "My swap: glass"))}
+{source_card("src-water", "Rows of plastic water bottles with white caps", "240,000", "Bottled water",
+             "A 2024 study counted about 240,000 plastic particles in a liter of bottled water. Nine in ten were nanoplastics.")}
+{source_card("src-laundry", "A woman adding detergent to a front-loading washing machine", "496,030", "Polyester laundry",
+             "One 6 kg load of polyester clothes can shed about 496,030 fibers in the wash.", ("swaps.html#underwear", "My swap: cotton"))}
     </div>
     <p class="cite-line center">Sources: Yadav et al., 2023; Hussain et al., 2023; Qian et al., 2024; Napper and Thompson, 2016.</p>
   </div>
 </section>
 
 <section id="learning" class="band">
-  <div class="wrap prose">
-    <h2>What scientists are still learning</h2>
-    <p>Many of these studies are small, and some of the ways of measuring plastic in the body are new. Researchers are still working out how much plastic people take in and how much harm it does. Every study here points the same direction, though, so my family decided to cut back now.</p>
+  <div class="wrap split flip">
+    {photo("doctor-patient", "A smiling doctor reviewing results with a patient")}
+    <div>
+      <h2>What scientists are still learning</h2>
+      <p>Many of these studies are small, and some of the ways of measuring plastic in the body are new. Researchers are still working out how much plastic people take in and how much harm it does. Every study here points the same direction, though, so my family decided to cut back now.</p>
+    </div>
   </div>
 </section>
-""" + cta("Start with the free swap list", f"{N.capitalize()} swaps my family made, each with the price we paid.",
-          "swaps.html", "Download the Free Swap List") + sources(
+""" + closing_banner("Start with the free swap list", f"{N.capitalize()} swaps my family made, each with the price we paid.",
+                     "swaps.html", "Download the Free Swap List") + sources(
         ["leslie", "ragusa", "nejm", "brain", "hyman", "yadav", "hussain", "qian", "napper"],
-        note="Photo: Unsplash (National Cancer Institute).") + "\n</main>\n" + foot()
+        note="Photos: Unsplash.") + "\n</main>\n" + foot()
 
 
 def sitemap():

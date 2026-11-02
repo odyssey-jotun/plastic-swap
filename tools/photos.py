@@ -29,7 +29,7 @@ def crop(im, ratio, fx=0.5, fy=0.5):
 
 
 HEROES = {
-    "hero-family-kitchen": ("pazs-Hi5mf8", 0.5, 0.5),  # Land O'Lakes, Inc.
+    "hero-couple-cooking": ("UaBIcWSS4FY", 0.5, 0.5),  # Becca Tapert
     "hero-scientist": ("JxoWb7wHqnA", 0.5, 0.5),       # National Cancer Institute
 }
 for name, (src, fx, fy) in HEROES.items():
@@ -51,14 +51,53 @@ for w in (600, 900):
     tall.resize((w, w * 3 // 4), Image.LANCZOS).save(f"images/banner-m-{w}.webp", quality=72, method=6)
 print("wrote banner")
 
-# Pantry of glass jars with bamboo lids (Unsplash 7pV3h8I4NkY, Cabri Caldwell), 4:3.
-im = Image.open("images/originals/7pV3h8I4NkY.jpg")
-w, h = im.size
-nh = int(w * 3 / 4)
-im = grade(im.crop((0, int((h - nh) * 0.35), w, int((h - nh) * 0.35) + nh)))
-for tw in (600, 900):
-    im.resize((tw, round(tw * 3 / 4)), Image.LANCZOS).save(f"images/pantry-{tw}.webp", quality=74, method=6)
-print("wrote pantry")
+# Section photos (4:3) and card photos (4:3, smaller). name: (file, focus x, focus y, box)
+# box (fractions of the original) is cropped first when set.
+SECTION = {
+    "family-kitchen": ("pazs-Hi5mf8", 0.5, 0.5, None),
+    "shopper": ("p-woman-basket", 0.5, 0.5, None),
+    "family-dinner": ("f-dinner-toast", 0.5, 0.5, None),
+    "blood-tubes": ("r-blood-hand", 0.5, 0.5, None),
+    "doctor-office": ("r-doctor-office", 0.5, 0.5, None),
+    "doctor-patient": ("r-doctor", 0.5, 0.5, None),
+    "grocery-aisle": ("p-aisle", 0.5, 0.5, None),
+}
+CARDS = {
+    "swap-board": ("board-tomato", 0.5, 0.5, None),
+    "swap-utensils": ("ut-rack", 0.5, 0.5, (0.3, 0.12, 0.95, 0.92)),
+    "swap-glass": ("pantry-granola", 0.5, 0.45, None),
+    "swap-dishwasher": ("dishwasher-woman", 0.5, 0.55, None),
+    "swap-toothbrush": ("tb-eucalyptus", 0.5, 0.5, None),
+    "swap-cotton": ("cloth-apparel", 0.5, 0.5, None),
+    "src-board": ("board-chili", 0.5, 0.5, None),
+    "src-microwave": ("r-microwave", 0.5, 0.5, None),
+    "src-water": ("r-bottles-white", 0.5, 0.5, None),
+    "src-laundry": ("r-laundry-woman", 0.5, 0.45, None),
+}
+for group, widths in ((SECTION, (600, 900)), (CARDS, (480, 720))):
+    for name, (src, fx, fy, box) in group.items():
+        im = Image.open(f"images/originals/{src}.jpg")
+        if box:
+            w, h = im.size
+            im = im.crop((int(box[0] * w), int(box[1] * h), int(box[2] * w), int(box[3] * h)))
+        im = grade(crop(im, 4 / 3, fx, fy))
+        if src == "ut-rack":  # shot in low light; lift it to match the other cards
+            im = ImageEnhance.Brightness(im).enhance(1.35)
+        for w in widths:
+            im.resize((w, w * 3 // 4), Image.LANCZOS).save(f"images/{name}-{w}.webp", quality=74, method=6)
+        print("wrote", name)
+
+# Closing banner (Unsplash, family breakfast): 2:1 for laptops, 4:3 for phones.
+src = Image.open("images/originals/f-dinner-yellow.jpg")
+W, H = src.size
+wide = grade(crop(src, 2, 0.5, 0.45))
+tall = grade(crop(src, 4 / 3, 0.5, 0.5))
+for w in (1000, 1600, 2400):
+    wide.resize((w, w // 2), Image.LANCZOS).save(f"images/closing-{w}.webp", quality=72, method=6)
+for w in (600, 900):
+    tall.resize((w, w * 3 // 4), Image.LANCZOS).save(f"images/closing-m-{w}.webp", quality=72, method=6)
+print("wrote closing")
+
 
 # Link preview (og.jpg): the tagline on bottle green. Never John's face.
 card = Image.new("RGB", (1200, 630), (18, 48, 41))
