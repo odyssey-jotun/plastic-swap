@@ -35,6 +35,7 @@ SOURCES = {
     "aap": "American Academy of Pediatrics. <em>Food Additives and Child Health</em>, policy statement. Pediatrics 142, no. 2 (2018).",
     "uw": "UW Medicine. <em>Limiting Your Exposure to Microplastics at Home</em>, with Dr. Sheela Sathyanarayana.",
     "hernandez": "Hernandez, Laura M., et al. <em>Plastic Teabags Release Billions of Microparticles and Nanoparticles into Tea.</em> Environmental Science &amp; Technology 53, no. 21 (2019).",
+    "soltani": "Soltani, Neda Sharifi, Mark Patrick Taylor, and Scott Paton Wilson. <em>Quantification and Exposure Assessment of Microplastics in Australian Indoor House Dust.</em> Environmental Pollution 283 (2021).",
     "textile": "Textile Exchange. <em>Materials Market Report 2024.</em> Polyester was 57% of global fiber production in 2023.",
 }
 
@@ -76,10 +77,10 @@ ROOMS = [
          "source": "Napper and Thompson, 2016", "family": "underwear"},
     ]},
     {"id": "home", "name": "Around the house", "intro": "Microplastics settle into household dust.", "photo": "room-house", "photo_left": False, "swaps": [
-        {"id": "dust", "icon": "wind", "photo": "swap-dust", "alt": "A woman vacuuming a bright living room",
-         "name": "Dust", "to": "Letting it build up to vacuuming often",
-         "text": "Dr. Sheela Sathyanarayana, a pediatrician and environmental epidemiologist at UW Medicine, recommends removing dust and vacuuming often to cut exposure at home.",
-         "source": "UW Medicine"},
+        {"id": "rugs", "icon": "wind", "photo": "swap-dust", "alt": "A woman vacuuming a bright living room",
+         "name": "Rugs and carpet", "to": "Synthetic to wool, cotton or jute",
+         "text": "Synthetic carpet sheds plastic fibers into household dust. In a study of 32 homes, homes with mostly carpeted floors had nearly double the plastic fibers in their dust, and homes vacuumed at least once a week had less. Dust is one of the biggest sources of exposure for babies, who crawl and put things in their mouths.",
+         "source": "Soltani et al., 2021; UW Medicine"},
     ]},
 ]
 ALL_SWAPS = [s for r in ROOMS for s in r["swaps"]]
@@ -94,7 +95,7 @@ BUY = {
     "tea": [("Ohtomber stainless steel tea infuser", "B0CFQW79K8")],
     "clothes": [("Amazon Essentials men's cotton boxer briefs", "B0FW47NTD3"),
                 ("Amazon Essentials women's cotton briefs", "B0BGGWKLMK")],
-    "dust": [],
+    "rugs": [("Safavieh natural jute rug, 5 x 8 ft", "B004Q07E5E")],
 }
 # The one-line reason on the printed checklist.
 WHY = {
@@ -105,7 +106,7 @@ WHY = {
     "water": "A liter of bottled water held about 240,000 plastic particles.",
     "tea": "One plastic tea bag released about 11.6 billion particles into a cup.",
     "clothes": "One load of polyester laundry can shed about 496,000 fibers.",
-    "dust": "Microplastics settle into dust. Vacuum often.",
+    "rugs": "Homes with mostly carpet had nearly double the plastic fibers in their dust.",
 }
 
 
@@ -601,7 +602,7 @@ def swaps():
 {"".join(rooms)}
 """ + cta("Keep the list in your kitchen", "Print the one-page PDF and check off each swap as you make it.",
           "swap-list.pdf", "Download the PDF", ("research.html", "Read the research"), download=True) + sources(
-        ["cr", "aap", "uw", "yadav", "hussain", "qian", "hernandez", "napper"],
+        ["cr", "aap", "uw", "yadav", "hussain", "qian", "hernandez", "napper", "soltani"],
         note="Photos: Unsplash.") + "\n</main>\n" + foot()
 
 
@@ -835,7 +836,7 @@ def checklist():
 <div class="body">
 {chr(10).join(rooms)}
 </div>
-<p class="foot"><b>Sources:</b> Consumer Reports, 2024 and 2025; American Academy of Pediatrics, 2018; UW Medicine; Yadav et al., 2023; Hussain et al., 2023; Qian et al., 2024; Hernandez et al., 2019; Napper and Thompson, 2016. Full list and research at <b>odyssey-jotun.github.io/plastic-swap</b></p>
+<p class="foot"><b>Sources:</b> Consumer Reports, 2024 and 2025; American Academy of Pediatrics, 2018; UW Medicine; Yadav et al., 2023; Hussain et al., 2023; Qian et al., 2024; Hernandez et al., 2019; Napper and Thompson, 2016; Soltani et al., 2021. Full list and research at <b>odyssey-jotun.github.io/plastic-swap</b></p>
 </div>
 </body>
 </html>
