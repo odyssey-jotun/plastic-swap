@@ -418,8 +418,7 @@ def index():
 </header>
 
 <section id="problem" class="band">
-  <div class="wrap split flip">
-    {photo("doctor-office", "A doctor in a white coat talking with a patient across his desk")}
+  <div class="wrap split">
     <div>
       <h2>Plastic wreaks havoc on our bodies</h2>
       <p class="lead">Tiny pieces of plastic come off the boards, containers and clothes people use every day. Scientists now find them in blood, arteries and brains.</p>
@@ -431,6 +430,7 @@ def index():
       </ul>
       <p>The dishes, clothes, containers and tools we use should enhance our lives, not jeopardize our health.</p>
     </div>
+    {photo("doctor-office", "A doctor in a white coat talking with a patient across his desk")}
   </div>
 </section>
 
