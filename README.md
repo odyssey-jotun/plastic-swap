@@ -39,7 +39,7 @@ Pages, `sitemap.xml`, `robots.txt` and `favicon.svg` are generated. Change copy 
 
 ## Photos
 
-The home hero is my own portrait, and it is the only photo of me on the site. The rest are from Unsplash under the Unsplash License: pantry jars (`7pV3h8I4NkY`, Cabri Caldwell), the swap list hero (`pazs-Hi5mf8`, Land O'Lakes, Inc.) and the research hero (`JxoWb7wHqnA`, National Cancer Institute).
+My portrait appears once, beside my story on the home page. The rest are from Unsplash under the Unsplash License: the home hero banner (`YGcleYb9wEQ`, Hillshire Farm, cropped above the counter so its product packaging stays out of frame), pantry jars (`7pV3h8I4NkY`, Cabri Caldwell, not currently used), the swap list hero (`pazs-Hi5mf8`, Land O'Lakes, Inc.) and the research hero (`JxoWb7wHqnA`, National Cancer Institute).
 
 ## Icons
 

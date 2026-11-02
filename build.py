@@ -96,7 +96,14 @@ def srcset(name, widths):
 
 def portrait(name, alt):
     return (f'<figure class="portrait"><img src="images/{name}-800.webp" srcset="{srcset(name, (480, 680, 800))}" '
-            f'sizes="{PORTRAIT_SIZES}" width="800" height="1000" alt="{alt}" fetchpriority="high" decoding="async"></figure>')
+            f'sizes="{PORTRAIT_SIZES}" width="800" height="1000" alt="{alt}" loading="lazy" decoding="async"></figure>')
+
+
+# Home hero banner: a wide 2:1 crop for laptops and a 4:3 crop for phones.
+BANNER_D = ", ".join(f"images/banner-{w}.webp {w}w" for w in (1000, 1600, 2400))
+BANNER_M = ", ".join(f"images/banner-m-{w}.webp {w}w" for w in (600, 900))
+BANNER_PRE = (f'<link rel="preload" as="image" type="image/webp" href="images/banner-m-900.webp" imagesrcset="{BANNER_M}" imagesizes="100vw" media="(max-width: 860px)" fetchpriority="high">\n'
+              f'<link rel="preload" as="image" type="image/webp" href="images/banner-1600.webp" imagesrcset="{BANNER_D}" imagesizes="100vw" media="(min-width: 861px)" fetchpriority="high">\n')
 
 
 def hero_img(name, alt):
@@ -322,19 +329,21 @@ def index():
         <h3>{s['name']}</h3>
         <p class="to">{s['to']}</p>
       </a>""" for s in ALL_SWAPS)
-    pre = preload("john-porch", (480, 680, 800), PORTRAIT_SIZES, 800)
-    return head(t, d, "", schema, pre) + nav("index.html") + f"""
+    return head(t, d, "", schema, BANNER_PRE) + nav("index.html") + f"""
 <main id="main">
 
-<header class="hero">
-  <div class="wrap hero2">
-    <div class="hero2-text">
+<header class="banner">
+  <picture>
+    <source media="(max-width: 860px)" srcset="{BANNER_M}" sizes="100vw">
+    <img src="images/banner-1600.webp" srcset="{BANNER_D}" sizes="100vw" width="1600" height="800" alt="A mother laughing with her two young children as they snack on vegetables in a sunny kitchen" fetchpriority="high" decoding="async">
+  </picture>
+  <div class="wrap">
+    <div class="banner-text">
       <h1>Less microplastic. <span>Same budget.</span></h1>
       <div class="btn-row">
         <a href="swaps.html" class="btn light">Download the Free Swap List</a>
       </div>
     </div>
-    {portrait("john-porch", "Me in a blue button-down shirt beside a white column on a porch")}
   </div>
 </header>
 
@@ -360,7 +369,7 @@ def index():
 
 <section id="about">
   <div class="wrap split flip">
-    {photo("pantry", "Glass pantry jars with bamboo lids holding oats, flour and sugar on white shelves")}
+    {portrait("john-porch", "Me in a blue button-down shirt beside a white column on a porch")}
     <div>
       <h2>My family started swapping in 2024</h2>
       <p>I'm John Griffin, a junior at Episcopal Collegiate School in Little Rock. A couple of years ago, I didn't know much about microplastics either. Too many people still don't. That changed in 2024, when I started watching health experts and doctors explain the research.</p>
@@ -438,7 +447,7 @@ def index():
 """ + cta("Start with the free swap list", f"{N.capitalize()} swaps, each with the price we paid.",
           "swaps.html", "Download the Free Swap List", ("research.html", "Read the research")) + sources(
         ["leslie", "textile", "nejm", "yadav", "hussain", "napper"],
-        note="Photo: Unsplash (Cabri Caldwell).") + "\n</main>\n" + foot()
+        note="Photo: Unsplash (Hillshire Farm).") + "\n</main>\n" + foot()
 
 
 # ---------------------------------------------------------------- swap list
