@@ -188,6 +188,21 @@ def photo(name, alt):
             f'sizes="(max-width: 860px) calc(100vw - 40px), 520px" width="900" height="675" alt="{alt}" loading="lazy" decoding="async"></figure>')
 
 
+POST_SIZES = "(max-width: 860px) calc(100vw - 40px), 760px"
+
+
+def post_head(title, lede, img, alt):
+    """Blog post header: byline, title, lede and a 3:2 photo, all in the post's text column."""
+    return f"""<header class="post-head">
+  <div class="wrap prose">
+    <p class="byline">By {AUTHOR}</p>
+    <h1>{title}</h1>
+    <p class="lede">{lede}</p>
+    <figure class="post-photo"><img src="images/{img}-1200.webp" srcset="{srcset(img, (800, 1200, 1520))}" sizes="{POST_SIZES}" width="1200" height="800" alt="{alt}" fetchpriority="high" decoding="async"></figure>
+  </div>
+</header>"""
+
+
 def preload(name, widths, sizes, big):
     return (f'<link rel="preload" as="image" type="image/webp" href="images/{name}-{big}.webp" '
             f'imagesrcset="{srcset(name, widths)}" imagesizes="{sizes}" fetchpriority="high">\n')
@@ -735,19 +750,12 @@ def family():
     rows = "\n".join(f"""        <tr><th scope="row"><a href="#{f['id']}">{f['name']}</a></th><td>{f['bought']}</td><td>{f['paid']}</td><td>{f['when']}</td></tr>""" for f in FAMILY)
     notes = "\n".join(f"""    <h3 id="{f['id']}">{f['name']}: {f['to'].lower()}</h3>
     <p>{f['note']}</p>""" for f in FAMILY)
-    return head(t, d, "family-swaps.html", schema, preload("blog-dishwasher", (480, 680, 800), PORTRAIT_SIZES, 800)) + nav("blog.html") + f"""
+    return head(t, d, "family-swaps.html", schema, preload("post-family", (800, 1200, 1520), POST_SIZES, 1200)) + nav("blog.html") + f"""
 <main id="main">
 
-<header class="page-hero">
-  <div class="wrap split">
-    <div>
-      <p class="byline">By {AUTHOR}</p>
-      <h1>What my family swapped, and what we paid</h1>
-      <p class="lede">Between August 2024 and September 2025, my family replaced {WORDS[len(FAMILY)]} everyday plastic products. Here is each swap, what we bought and what it cost.</p>
-    </div>
-    {portrait("blog-dishwasher", "A woman loading dishes into a dishwasher in her kitchen", eager=True)}
-  </div>
-</header>
+{post_head("What my family swapped, and what we paid",
+           f"Between August 2024 and September 2025, my family replaced {WORDS[len(FAMILY)]} everyday plastic products. Here is each swap, what we bought and what it cost.",
+           "post-family", "A woman loading dishes into a dishwasher in her kitchen")}
 
 <section class="post">
   <div class="wrap prose">
@@ -788,19 +796,12 @@ def underwear():
         <p>{ICONS['shopping-cart']}<span>{n}<br><small>{note}</small></span></p>
         <a class="btn small" href="{amazon(a)}" target="_blank" rel="noopener nofollow">View on Amazon</a>
       </div>""" for n, a, note in UNDERWEAR)
-    return head(t, d, "cotton-underwear.html", schema) + nav("blog.html") + f"""
+    return head(t, d, "cotton-underwear.html", schema, preload("post-underwear", (800, 1200, 1520), POST_SIZES, 1200)) + nav("blog.html") + f"""
 <main id="main">
 
-<header class="page-hero">
-  <div class="wrap split">
-    <div>
-      <p class="byline">By {AUTHOR}</p>
-      <h1>Cotton vs. polyester underwear: what the research says about plastic</h1>
-      <p class="lede">Polyester, nylon and spandex are all plastics, and a lot of underwear is made from them. Here is what testing has found, and what to look for instead.</p>
-    </div>
-    {photo("room-closet", "A person folding a stack of clean clothes")}
-  </div>
-</header>
+{post_head("Cotton vs. polyester underwear: what the research says about plastic",
+           "Polyester, nylon and spandex are all plastics, and a lot of underwear is made from them. Here is what testing has found, and what to look for instead.",
+           "post-underwear", "A person folding a stack of clean clothes")}
 
 <section class="post">
   <div class="wrap prose">
@@ -816,8 +817,8 @@ def underwear():
       <li>Waistbands almost always have some elastic. Look for cotton where the fabric touches your skin.</li>
     </ul>
     <h2>Two places to start</h2>
+    <p>My family switched to cotton boxers in December 2024. These two are both cotton and easy to find.</p>
 {picks}
-    <p>My family switched to cotton boxers in December 2024.</p>
   </div>
 </section>
 """ + cta("See the full swap list", f"{N.capitalize()} swaps, room by room, each backed by a trusted source.",
@@ -835,7 +836,7 @@ def blog():
               "Cotton vs. polyester underwear", "What testing has found about synthetic fabric, and what to look for.")]
     cards = "\n".join(f"""      <a class="pcard" href="{h}">
         <figure class="card-photo">{card_img(img, alt)}</figure>
-        <div class="pcard-body"><h3>{title}</h3><p class="to">{text}</p></div>
+        <div class="pcard-body"><h3>{title}</h3><p>{text}</p><p class="read">Read the post</p></div>
       </a>""" for h, img, alt, title, text in items)
     return head(t, d, "blog.html", schema) + nav("blog.html") + f"""
 <main id="main">

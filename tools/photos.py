@@ -13,7 +13,6 @@ def grade(im):
 # Portraits of John (4:5), cropped with explicit boxes in original pixels.
 PORTRAITS = {
     "john-porch": ("john-porch", (420, 950, 3020, 4200)),
-    "blog-dishwasher": ("dishwasher-woman", None),
 }
 for name, (src, box) in PORTRAITS.items():
     im = ImageOps.exif_transpose(Image.open(f"images/originals/{src}.jpg"))
@@ -96,6 +95,17 @@ for group, widths in ((SECTION, (600, 900)), (CARDS, (480, 720))):
         for w in widths:
             im.resize((w, w * 3 // 4), Image.LANCZOS).save(f"images/{name}-{w}.webp", quality=74, method=6)
         print("wrote", name)
+
+# Blog post headers (3:2), shown at the width of the post text.
+POSTS = {
+    "post-family": ("dishwasher-woman", 0.5, 0.68),
+    "post-underwear": ("cloth-apparel", 0.5, 0.5),
+}
+for name, (src, fx, fy) in POSTS.items():
+    im = grade(crop(ImageOps.exif_transpose(Image.open(f"images/originals/{src}.jpg")), 3 / 2, fx, fy))
+    for w in (800, 1200, 1520):
+        im.resize((w, round(w / 1.5)), Image.LANCZOS).save(f"images/{name}-{w}.webp", quality=74, method=6)
+    print("wrote", name)
 
 # Closing banner (Unsplash, family breakfast): 2:1 for laptops, 4:3 for phones.
 src = Image.open("images/originals/f-dinner-yellow.jpg")

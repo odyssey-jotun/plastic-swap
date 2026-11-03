@@ -458,6 +458,24 @@ footer ul a:hover{ color: var(--mint); }
 /* ---------------- blog ---------------- */
 .pcards.two{ grid-template-columns: repeat(2, 1fr); max-width: 760px; margin: 0 auto; }
 @media (max-width: 620px){ .pcards.two{ grid-template-columns: 1fr; } }
-.prose .buy{ margin: 0 0 12px; }
+.post-head{ padding: 56px 0 0; }
+.post-head h1{ font-size: clamp(2rem, 4.2vw, 2.9rem); }
+.post-head .lede{ font-size: 1.14rem; color: var(--ink-soft); margin-top: 12px; }
+.post-photo{ margin: 32px 0 0; border-radius: var(--radius); overflow: hidden; aspect-ratio: 3/2; background: var(--bg-alt); }
+.post-photo img{ width: 100%; height: 100%; object-fit: cover; display: block; }
+.post-head + .post{ padding-top: 36px; }
+.post-head + .post .prose > :first-child{ margin-top: 0; }
+.pcards.two .pcard-body{ text-align: left; display: flex; flex-direction: column; flex: 1; }
+.pcards.two .pcard-body p{ margin: 6px 0 0; }
+.pcards.two .read{ margin-top: auto; padding-top: 12px; font-weight: 700; color: var(--blue); }
+.prose .buy{ flex-direction: row; align-items: center; justify-content: space-between; gap: 16px; margin: 16px 0 0; padding: 16px 18px; }
+.prose .buy + .buy{ margin-top: 10px; }
+.prose .buy .btn{ width: auto; flex: none; }
 .prose .buy p{ font-size: 1rem; }
+@media (max-width: 620px){
+  .post-head{ padding-top: 28px; }
+  .post-photo{ margin-top: 24px; }
+  .prose .buy{ flex-direction: column; align-items: stretch; }
+  .prose .buy .btn{ width: 100%; }
+}
 .buy small{ display: block; font-weight: 400; color: var(--ink-soft); font-size: 0.92rem; margin-top: 2px; }
