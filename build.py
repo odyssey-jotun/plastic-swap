@@ -278,6 +278,14 @@ def wordmark():
     return f"<span>{SITE_NAME}</span>"
 
 
+CTA = "Download the Free Swap List"
+
+
+def pdf_btn(cls="btn"):
+    """The one direct call to action: download the PDF checklist."""
+    return f'<a href="swap-list.pdf" class="{cls}" download>{CTA}</a>'
+
+
 def nav(current):
     cur = ' aria-current="page"'
     lis = "\n".join(f'      <li><a href="{h}"{cur if h == current else ""}>{l}</a></li>' for h, l in PAGES)
@@ -287,6 +295,7 @@ def nav(current):
     <ul>
 {lis}
     </ul>
+    {pdf_btn("btn small nav-cta")}
   </div>
 </nav>
 """
@@ -401,10 +410,6 @@ def statlist(items):
 
 
 def swap_card(s, room=""):
-    buy = "\n".join(f'''          <div class="buy">
-            <p>{ICONS['shopping-cart']}<span>{name}</span></p>
-            <a class="btn small" href="{amazon(asin)}" target="_blank" rel="noopener nofollow">View on Amazon</a>
-          </div>''' for name, asin in BUY.get(s['id'], []))
     more = f'\n          <p class="more"><a href="{s["more"][0]}">{s["more"][1]}</a></p>' if s.get("more") else ""
     return f"""      <article class="swap" id="{s['id']}">
         <figure class="card-photo">{card_img(s['photo'], s['alt'])}</figure>
@@ -415,7 +420,7 @@ def swap_card(s, room=""):
           <p class="to">{s['to']}</p>
           <p>{s['text']}</p>
           <p class="source">{ICONS['flask-conical']}<span>Source: {s['source']}</span></p>
-{buy}{more}
+{more}
         </div>
       </article>"""
 
@@ -424,7 +429,8 @@ def outcomes(items, mark):
     return "\n".join(f"          <li>{ICONS[mark]}<span>{t}</span></li>" for t in items)
 
 
-def closing_banner(heading, text, href, label, second=None):
+def closing_banner(heading, text, href, label, second=None, download=False):
+    dl = " download" if download else ""
     extra = f'<a href="{second[0]}" class="btn ghost-light">{second[1]}</a>' if second else ""
     return f"""
 <section class="banner closing-banner">
@@ -433,7 +439,7 @@ def closing_banner(heading, text, href, label, second=None):
     <div class="banner-text">
       <h2>{heading}</h2>
       <p>{text}</p>
-      <div class="btn-row"><a href="{href}" class="btn light">{label}</a>{extra}</div>
+      <div class="btn-row"><a href="{href}" class="btn light"{dl}>{label}</a>{extra}</div>
     </div>
   </div>
 </section>
@@ -462,7 +468,7 @@ def index():
     <div class="banner-text">
       <h1>Cut the plastic, <span>keep your health.</span></h1>
       <div class="btn-row">
-        <a href="swaps.html" class="btn light">Download the Free Swap List</a>
+        {pdf_btn("btn light")}
       </div>
     </div>
   </div>
@@ -506,7 +512,7 @@ def index():
         <li><div><h3>Make the swaps that fit your budget</h3><p>Start with the cheap ones, like loose-leaf tea or a wooden spoon.</p></div></li>
         <li><div><h3>Enjoy a healthier home</h3><p>Cook, eat and dress knowing less plastic ends up in your body.</p></div></li>
       </ol>
-      <div class="btn-row"><a href="swaps.html" class="btn">Download the Free Swap List</a></div>
+      <div class="btn-row">{pdf_btn()}</div>
     </div>
     {photo("family-kitchen", "A grandfather and two grandchildren preparing food together at a wooden cutting board in a sunny kitchen")}
   </div>
@@ -521,6 +527,7 @@ def index():
     <div class="pcards four preview">
 {preview}
     </div>
+    <div class="btn-row room-cta">{pdf_btn()}</div>
   </div>
 </section>
 
@@ -554,7 +561,7 @@ def index():
   </div>
 </section>
 """ + closing_banner("Start with the free swap list", f"{N.capitalize()} swaps, each backed by a trusted source.",
-                     "swaps.html", "Download the Free Swap List", ("research.html", "Read the research")) + sources(
+                     "swap-list.pdf", CTA, ("research.html", "Read the research"), download=True) + sources(
         ["leslie", "nejm", "brain", "hyman", "yadav", "hussain", "napper"],
         note="Photos: Unsplash.") + "\n</main>\n" + foot()
 
@@ -587,6 +594,7 @@ def swaps():
   <div class="wrap split{' flip' if r['photo_left'] else ''}">
 {body}
   </div>
+  <div class="wrap btn-row room-cta">{pdf_btn()}</div>
 </section>""")
             continue
         rooms.append(f"""
@@ -599,6 +607,7 @@ def swaps():
     <div class="swaps">
 {cards}
     </div>
+    <div class="btn-row room-cta">{pdf_btn()}</div>
   </div>
 </section>""")
     return head(t, d, "swaps.html", schema, preload("hero-couple-cooking", HERO_W, PAGE_SIZES, 960)) + nav("swaps.html") + f"""
@@ -610,7 +619,7 @@ def swaps():
       <h1>The free plastic swap list</h1>
       <p class="lede">{N.capitalize()} swaps, room by room, each backed by Consumer Reports, the American Academy of Pediatrics, UW Medicine or a peer-reviewed study.</p>
       <div class="btn-row">
-        <a href="swap-list.pdf" class="btn" download>Download the PDF</a>
+        {pdf_btn()}
       </div>
     </div>
     {hero_img("hero-couple-cooking", "A couple cooking together at the stove in a bright kitchen")}
@@ -618,7 +627,7 @@ def swaps():
 </header>
 {"".join(rooms)}
 """ + cta("Keep the list in your kitchen", "Print the one-page PDF and check off each swap as you make it.",
-          "swap-list.pdf", "Download the PDF", ("research.html", "Read the research"), download=True) + sources(
+          "swap-list.pdf", CTA, ("research.html", "Read the research"), download=True) + sources(
         ["cr", "aap", "uw", "yadav", "hussain", "qian", "hernandez", "napper", "ceh", "soltani"],
         note="Photos: Unsplash.") + "\n</main>\n" + foot()
 
@@ -721,6 +730,7 @@ def research():
              "One 6 kg load of polyester clothes can shed about 496,030 fibers in the wash.", ("swaps.html#clothes", "The swap: cotton"))}
     </div>
     <p class="cite-line center">Sources: Yadav et al., 2023; Hussain et al., 2023; Qian et al., 2024; Napper and Thompson, 2016.</p>
+    <div class="btn-row room-cta">{pdf_btn()}</div>
   </div>
 </section>
 
@@ -734,7 +744,7 @@ def research():
   </div>
 </section>
 """ + closing_banner("Start with the free swap list", f"{N.capitalize()} swaps, each backed by a trusted source.",
-                     "swaps.html", "Download the Free Swap List") + sources(
+                     "swap-list.pdf", CTA, download=True) + sources(
         ["leslie", "ragusa", "nejm", "brain", "hyman", "yadav", "hussain", "qian", "napper"],
         note="Photos: Unsplash.") + "\n</main>\n" + foot()
 
@@ -777,7 +787,7 @@ def family():
   </div>
 </section>
 """ + cta("See the full swap list", f"{N.capitalize()} swaps, room by room, each backed by a trusted source.",
-          "swaps.html", "Download the Free Swap List", ("research.html", "Read the research")) + credits(
+          "swap-list.pdf", CTA, ("research.html", "Read the research"), download=True) + credits(
         "Photo: Unsplash.") + "\n</main>\n" + foot()
 
 
@@ -822,7 +832,7 @@ def underwear():
   </div>
 </section>
 """ + cta("See the full swap list", f"{N.capitalize()} swaps, room by room, each backed by a trusted source.",
-          "swaps.html", "Download the Free Swap List", ("research.html", "Read the research")) + sources(
+          "swap-list.pdf", CTA, ("research.html", "Read the research"), download=True) + sources(
         ["napper", "ceh"], note="Photo: Unsplash.") + "\n</main>\n" + foot()
 
 
@@ -853,7 +863,7 @@ def blog():
   </div>
 </section>
 """ + cta("See the full swap list", f"{N.capitalize()} swaps, room by room, each backed by a trusted source.",
-          "swaps.html", "Download the Free Swap List") + "\n</main>\n" + foot()
+          "swap-list.pdf", CTA, download=True) + "\n</main>\n" + foot()
 
 # ---------------------------------------------------------------- printable checklist
 # Printed to swap-list.pdf by tools/pdf.cjs. Not linked from the site.

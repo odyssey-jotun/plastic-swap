@@ -39,7 +39,8 @@ Pages, `sitemap.xml`, `robots.txt` and `favicon.svg` are generated. Change copy 
 
 ## Rules this site follows
 
-- Every figure is cited in plain text. The only external links are the Amazon product links.
+- Every figure is cited in plain text. Amazon product links appear only in the PDF and the cotton underwear post, never on the home, swap list or research pages.
+- One call to action, "Download the Free Swap List", downloads `swap-list.pdf`. It sits in the header, under the hero and under every section that lists household items.
 - No em dashes, no small uppercase labels above headings, no bold phrases inside sentences.
 
 ## Photos
